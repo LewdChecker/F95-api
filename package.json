@@ -85,7 +85,8 @@
     },
     "cz-emoji": {
       "skipQuestions": [
-        "issues"
+        "issues",
+        "breaking"
       ]
     }
   }
