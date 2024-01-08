@@ -2,9 +2,14 @@
 dist/
 node_modules/
 .nyc_output/
-coverage
+coverage/
 
 # Files
 .env
 .dccache
 F95API_NPM_AUTH_TOKEN.txt
+
+# Package managers
+package-lock.json
+yarn.lock
+bun.lockb
