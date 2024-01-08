@@ -90,7 +90,7 @@ export default async function getHandiworkInformation<T extends Basic>(
  */
 /* c8 ignore start */
 function extractIDFromURL(url: string): number {
-  shared.logger.trace('Extracting ID from URL...');
+  shared.logger.trace(`Extracting ID from ${url}`);
 
   // Validate URL
   if (!isStringAValidURL(url)) throw new URIError(`'${url}' is not a valid URL`);
