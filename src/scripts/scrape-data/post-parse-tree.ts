@@ -4,13 +4,14 @@
 // https://opensource.org/licenses/MIT
 
 // Public modules from npm
-import { CheerioAPI, AnyNode } from 'cheerio';
-import { ParameterError } from '../classes/errors';
+import { AnyNode, CheerioAPI } from 'cheerio';
 
 // Modules from file
-import { IPostElement } from '../interfaces';
-import parseCheerioNode from './post-node-parse/node-parse';
-import { createEmptyElement } from './post-node-parse/node-utility';
+import { ParameterError } from '../classes/errors.js';
+import { IPostElement } from '../interfaces.js';
+
+import parseCheerioNode from './post-node-parse/node-parse.js';
+import { createEmptyElement } from './post-node-parse/node-utility.js';
 
 // Global ID counter
 let idcounter = 0;
@@ -98,6 +99,7 @@ function createTree($: CheerioAPI, node: AnyNode, parent?: TreeNode): TreeNode {
  * Debug function used to display the elements that make up a tree in the console.
  */
 /* c8 ignore start */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function printTree(root: TreeNode, nindent = 0) {
   // Define the indent
   const indent = `${' '.repeat(nindent)}└─ `;

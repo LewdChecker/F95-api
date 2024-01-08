@@ -7,10 +7,11 @@
 import { CheerioAPI, Cheerio, AnyNode } from 'cheerio';
 
 // Modules from file
-import { POST } from '../../constants/css-selector';
-import { ILink, IPostElement } from '../../interfaces';
-import { nodeType } from './node-type';
-import { cleanTextFromInvisibleCharacters, createEmptyElement } from './node-utility';
+import { POST } from '../../constants/css-selector.js';
+import { ILink, IPostElement } from '../../interfaces.js';
+
+import { nodeType } from './node-type.js';
+import { cleanTextFromInvisibleCharacters, createEmptyElement } from './node-utility.js';
 
 /**
  * Given a Cheerio node, it extracts the information into an IPostElement structure.

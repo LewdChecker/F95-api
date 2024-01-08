@@ -4,17 +4,19 @@
 // https://opensource.org/licenses/MIT
 
 // Core modules
-import { version } from '../../package.json';
 
 // Local modules
-import addDDoSSupport from './ddos-guard-bypass';
-import shared from './shared';
 
 // Public modules from npm
-import axios, { AxiosRequestConfig, AxiosInstance } from 'axios';
-import axiosRetry from 'axios-retry';
+import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 import { wrapper as addCookieJarSupport } from 'axios-cookiejar-support';
-import { urls } from './constants/url';
+import axiosRetry from 'axios-retry';
+
+import pkg from '../../package.json' assert { type: 'json' };
+
+import { urls } from './constants/url.js';
+import addDDoSSupport from './ddos-guard-bypass.js';
+import shared from './shared.js';
 
 /**
  * Explicit the HTTP adapter otherwise on Electron the XHR adapter
@@ -27,7 +29,7 @@ axios.defaults.adapter = 'http';
 /**
  * User agent string used to describe this API.
  */
-const USER_AGENT = `Mozilla/5.0 (compatible; F95API/${version}; MillenniumEarl@f95zone; https://github.com/MillenniumEarl/F95API)`;
+const USER_AGENT = `Mozilla/5.0 (compatible; F95API/${pkg.version}; MillenniumEarl@f95zone; https://github.com/MillenniumEarl/F95API)`;
 
 /**
  * Common configuration used to send request via Axios.
@@ -70,12 +72,14 @@ export default function createAxiosAgent(): AxiosInstance {
   let agent: AxiosInstance = axios.create(commonConfig);
 
   // Add support for cookies with tough-cookies
+  // @ts-expect-error tough-cookie is not supported by axios-cookiejar-support
   agent = addCookieJarSupport(agent);
 
   // Add support to bypass DDoS guard
   addDDoSSupport(agent);
 
   // Enable Axios to retry a request in case of errors
+  // @ts-expect-error axiosRetry is not supported by axios
   axiosRetry(agent, {
     retryDelay: axiosRetry.exponentialDelay, // Use exponential back-off retry delay
     shouldResetTimeout: true, // Timer resets after every retry

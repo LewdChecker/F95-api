@@ -7,14 +7,14 @@
 import { load } from 'cheerio';
 
 // Modules from files
-import { GENERIC, MEMBER } from '../../constants/css-selector';
-import { DEFAULT_DATE } from '../../constants/generic';
-import { urls } from '../../constants/url';
-import { ILazy } from '../../interfaces';
-import { fetchHTML } from '../../network-helper';
-import shared from '../../shared';
-import { isValidISODateString } from '../../utils';
-import { INVALID_USER_ID, InvalidID, USER_NOT_LOGGED, UserNotLogged } from '../errors';
+import { GENERIC, MEMBER } from '../../constants/css-selector.js';
+import { DEFAULT_DATE } from '../../constants/generic.js';
+import { urls } from '../../constants/url.js';
+import { ILazy } from '../../interfaces.js';
+import { fetchHTML } from '../../network-helper.js';
+import shared from '../../shared.js';
+import { isValidISODateString } from '../../utils.js';
+import { INVALID_USER_ID, InvalidID, USER_NOT_LOGGED, UserNotLogged } from '../errors.js';
 
 /**
  * Represents a generic user registered on the platform.

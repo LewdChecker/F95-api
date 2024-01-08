@@ -4,26 +4,26 @@
 // https://opensource.org/licenses/MIT
 
 // Modules from file
-import shared from './scripts/shared';
+import shared from './scripts/shared.js';
 
 //#region Re-export classes
 
-export { default as PrefixParser } from './scripts/classes/prefix-parser';
+export { default as PrefixParser } from './scripts/classes/prefix-parser.js';
 
-export { default as Animation } from './scripts/classes/handiwork/animation';
-export { default as Asset } from './scripts/classes/handiwork/asset';
-export { default as Comic } from './scripts/classes/handiwork/comic';
-export { default as Game } from './scripts/classes/handiwork/game';
-export { default as Handiwork } from './scripts/classes/handiwork/handiwork';
+export { default as Animation } from './scripts/classes/handiwork/animation.js';
+export { default as Asset } from './scripts/classes/handiwork/asset.js';
+export { default as Comic } from './scripts/classes/handiwork/comic.js';
+export { default as Game } from './scripts/classes/handiwork/game.js';
+export { default as Handiwork } from './scripts/classes/handiwork/handiwork.js';
 
-export { default as PlatformUser } from './scripts/classes/mapping/platform-user';
-export { default as Post } from './scripts/classes/mapping/post';
-export { default as Thread } from './scripts/classes/mapping/thread';
-export { default as UserProfile } from './scripts/classes/mapping/user-profile';
+export { default as PlatformUser } from './scripts/classes/mapping/platform-user.js';
+export { default as Post } from './scripts/classes/mapping/post.js';
+export { default as Thread } from './scripts/classes/mapping/thread.js';
+export { default as UserProfile } from './scripts/classes/mapping/user-profile.js';
 
-export { default as HandiworkSearchQuery } from './scripts/classes/query/handiwork-search-query';
-export { default as LatestSearchQuery } from './scripts/classes/query/latest-search-query';
-export { default as ThreadSearchQuery } from './scripts/classes/query/thread-search-query';
+export { default as HandiworkSearchQuery } from './scripts/classes/query/handiwork-search-query.js';
+export { default as LatestSearchQuery } from './scripts/classes/query/latest-search-query.js';
+export { default as ThreadSearchQuery } from './scripts/classes/query/thread-search-query.js';
 
 //#endregion Re-export classes
 
@@ -60,9 +60,9 @@ setLoggerLevel('warn'); // By default log only the warn messages
 
 //#region Re-export methods
 
-export * from './scripts/handiwork-from-url';
-export * from './scripts/login';
-export * from './scripts/updates';
-export { default as searchHandiwork } from './scripts/search';
+export * from './scripts/handiwork-from-url.js';
+export * from './scripts/login.js';
+export * from './scripts/updates.js';
+export { default as searchHandiwork } from './scripts/search.js';
 
 //#endregion Re-export methods

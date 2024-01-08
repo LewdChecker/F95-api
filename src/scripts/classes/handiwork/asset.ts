@@ -4,8 +4,9 @@
 // https://opensource.org/licenses/MIT
 
 // Modules from files
-import { IAsset } from '../../interfaces';
-import Basic from './basic';
+import { IAsset } from '../../interfaces.js';
+
+import Basic from './basic.js';
 
 export default class Asset extends Basic implements IAsset {
   //#region Properties

@@ -4,11 +4,12 @@
 // https://opensource.org/licenses/MIT
 
 // Modules from files
-import { Handiwork } from '../../..';
-import { DEFAULT_DATE } from '../../constants/generic';
-import { IHandiwork } from '../../interfaces';
-import { TEngine, TStatus } from '../../types';
-import Basic from './basic';
+import { Handiwork } from '../../../index.js';
+import { DEFAULT_DATE } from '../../constants/generic.js';
+import { IHandiwork } from '../../interfaces.js';
+import { TEngine, TStatus } from '../../types.js';
+
+import Basic from './basic.js';
 
 /**
  * It represents a generic work, be it a game, a comic, an animation or an asset.

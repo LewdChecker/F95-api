@@ -4,7 +4,7 @@
 // https://opensource.org/licenses/MIT
 
 // Modules from file
-import shared, { TPrefixDict } from '../shared';
+import shared, { TPrefixDict } from '../shared.js';
 
 /**
  * Convert prefixes and platform tags from string to ID and vice versa.

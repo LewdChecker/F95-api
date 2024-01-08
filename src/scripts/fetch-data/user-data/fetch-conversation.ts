@@ -7,10 +7,10 @@
 import { AnyNode, Cheerio, load } from 'cheerio';
 
 // Modules from files
-import { CONVERSATION } from '../../constants/css-selector';
-import { urls } from '../../constants/url';
-import { IConversation } from '../../interfaces';
-import { isValidISODateString } from '../../utils';
+import { CONVERSATION } from '../../constants/css-selector.js';
+import { urls } from '../../constants/url.js';
+import { IConversation } from '../../interfaces.js';
+import { isValidISODateString } from '../../utils.js';
 
 /**
  * Process a page containing a list of conversations

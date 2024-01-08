@@ -4,16 +4,13 @@
 // https://opensource.org/licenses/MIT
 
 // Public modules from npm
+import { Semaphore } from 'await-semaphore';
 import { AxiosError, AxiosResponse } from 'axios';
 import { load } from 'cheerio';
-import { Semaphore } from 'await-semaphore';
 
 // Modules from file
-import shared from './shared';
-import { urls } from './constants/url';
-import { GENERIC } from './constants/css-selector';
-import LoginResult from './classes/login-result';
-import { failure, Result, success } from './classes/result';
+import createAxiosAgent from './agent.js';
+import Credentials from './classes/credentials.js';
 import {
   ERROR_CODE,
   GenericAxiosError,
@@ -21,9 +18,12 @@ import {
   NoPreviousSession,
   PREVIOUS_SESSION_NOT_EXISTENT,
   UnexpectedResponseContentType,
-} from './classes/errors';
-import Credentials from './classes/credentials';
-import createAxiosAgent from './agent';
+} from './classes/errors.js';
+import LoginResult from './classes/login-result.js';
+import { failure, Result, success } from './classes/result.js';
+import { GENERIC } from './constants/css-selector.js';
+import { urls } from './constants/url.js';
+import shared from './shared.js';
 
 // Types
 type TLookupMapCode = {

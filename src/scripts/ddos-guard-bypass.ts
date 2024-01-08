@@ -8,9 +8,9 @@ import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 import { Cookie } from 'tough-cookie';
 
 // Modules from file
-import { ERROR_CODE, GenericAxiosError } from './classes/errors';
-import { urls } from './constants/url';
-import shared from './shared';
+import { ERROR_CODE, GenericAxiosError } from './classes/errors.js';
+import { urls } from './constants/url.js';
+import shared from './shared.js';
 
 /**
  * Allows `agent` to bypass the DDOS Guard protection service (https://ddos-guard.net/)

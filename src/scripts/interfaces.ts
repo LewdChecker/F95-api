@@ -14,7 +14,7 @@ import {
   TQueryInterface,
   TAlertType,
   TAlertReactionType,
-} from './types';
+} from './types.js';
 
 /**
  * Collection of values defined for each

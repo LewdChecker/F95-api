@@ -4,11 +4,12 @@
 // https://opensource.org/licenses/MIT
 
 // Modules from file
-import HandiworkSearchQuery from '../classes/query/handiwork-search-query';
-import LatestSearchQuery from '../classes/query/latest-search-query';
-import ThreadSearchQuery from '../classes/query/thread-search-query';
-import fetchLatestHandiworkURLs from './fetch-latest';
-import fetchThreadHandiworkURLs from './fetch-thread';
+import HandiworkSearchQuery from '../classes/query/handiwork-search-query.js';
+import LatestSearchQuery from '../classes/query/latest-search-query.js';
+import ThreadSearchQuery from '../classes/query/thread-search-query.js';
+
+import fetchLatestHandiworkURLs from './fetch-latest.js';
+import fetchThreadHandiworkURLs from './fetch-thread.js';
 
 /**
  * Gets the URLs of the handiworks that match the passed parameters.

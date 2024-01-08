@@ -9,9 +9,11 @@ import { promises as fs, existsSync } from 'fs';
 // Public modules from npm
 import { sha256 } from 'js-sha256';
 import tough, { CookieJar } from 'tough-cookie';
-import { ParameterError } from './errors';
-import { urls } from '../constants/url';
-import { DEFAULT_DATE } from '../constants/generic';
+
+import { DEFAULT_DATE } from '../constants/generic.js';
+import { urls } from '../constants/url.js';
+
+import { ParameterError } from './errors.js';
 
 export default class Session {
   //#region Fields

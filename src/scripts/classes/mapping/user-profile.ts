@@ -13,25 +13,26 @@ import {
   CONVERSATION,
   GENERIC,
   WATCHED_THREAD,
-} from '../../constants/css-selector';
-import { DEFAULT_DATE } from '../../constants/generic';
-import { urls } from '../../constants/url';
-import fetchAlertElements from '../../fetch-data/user-data/fetch-alert';
-import fetchPageConversations from '../../fetch-data/user-data/fetch-conversation';
-import { getHandiworkFromURL } from '../../handiwork-from-url';
-import { IAlert, IBookmarkedPost, IConversation, IWatchedThread } from '../../interfaces';
-import { fetchHTML } from '../../network-helper';
-import shared from '../../shared';
-import { isValidISODateString } from '../../utils';
+} from '../../constants/css-selector.js';
+import { DEFAULT_DATE } from '../../constants/generic.js';
+import { urls } from '../../constants/url.js';
+import fetchAlertElements from '../../fetch-data/user-data/fetch-alert.js';
+import fetchPageConversations from '../../fetch-data/user-data/fetch-conversation.js';
+import { getHandiworkFromURL } from '../../handiwork-from-url.js';
+import { IAlert, IBookmarkedPost, IConversation, IWatchedThread } from '../../interfaces.js';
+import { fetchHTML } from '../../network-helper.js';
+import shared from '../../shared.js';
+import { isValidISODateString } from '../../utils.js';
 import {
   InvalidID,
   MissingOrInvalidParsingAttribute,
   USER_NOT_LOGGED,
   UserNotLogged,
-} from '../errors';
-import Game from '../handiwork/game';
-import PlatformUser from './platform-user';
-import Thread from './thread';
+} from '../errors.js';
+import Game from '../handiwork/game.js';
+
+import PlatformUser from './platform-user.js';
+import Thread from './thread.js';
 
 interface IFetchOptions<T> {
   /**

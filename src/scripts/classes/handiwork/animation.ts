@@ -4,8 +4,9 @@
 // https://opensource.org/licenses/MIT
 
 // Modules from files
-import { IAnimation } from '../../interfaces';
-import Basic from './basic';
+import { IAnimation } from '../../interfaces.js';
+
+import Basic from './basic.js';
 
 export default class Animation extends Basic implements IAnimation {
   //#region Properties

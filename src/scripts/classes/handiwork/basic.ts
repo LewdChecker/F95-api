@@ -4,9 +4,9 @@
 // https://opensource.org/licenses/MIT
 
 // Modules from files
-import { DEFAULT_DATE } from '../../constants/generic';
-import { IBasic } from '../../interfaces';
-import { TAuthor, TCategory, TChangelog, TRating } from '../../types';
+import { DEFAULT_DATE } from '../../constants/generic.js';
+import { IBasic } from '../../interfaces.js';
+import { TAuthor, TCategory, TChangelog, TRating } from '../../types.js';
 
 export default class Basic implements IBasic {
   //#region Properties

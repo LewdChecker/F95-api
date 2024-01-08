@@ -24,6 +24,7 @@
   ],
   "scripts": {
     "prettify": "prettier --config .prettierrc '{src,test}/**/*.ts' --write",
+    "lint": "eslint --ext .ts,json src --fix",
     "pretest": "npm run build",
     "test": "mocha --require ts-node/register test/{unit,integration}/index.ts",
     "coverage": "c8 --reporter=lcov --reporter=text npm run test",
@@ -66,7 +67,9 @@
     "dotenv": "16.3.1",
     "eslint": "8.56.0",
     "eslint-config-prettier": "9.1.0",
-    "eslint-plugin-prettier": "4.2.1",
+    "eslint-import-resolver-typescript": "^3.6.1",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-prettier": "5.1.2",
     "inquirer": "9.2.12",
     "log4js": "6.9.1",
     "luxon": "^3.4.4",
@@ -91,5 +94,6 @@
         "breaking"
       ]
     }
-  }
+  },
+  "type": "module"
 }

@@ -7,14 +7,15 @@
 import { AxiosResponse } from 'axios';
 
 // Module from files
-import { fetchPOSTResponse } from '../../network-helper';
-import { TQueryInterface, TCategory } from '../../types';
-import { GenericAxiosError } from '../errors';
-import PrefixParser from './../prefix-parser';
-import { urls } from '../../constants/url';
-import { IQuery } from '../../interfaces';
-import { Result } from '../result';
-import Shared from '../../shared';
+import { urls } from '../../constants/url.js';
+import { IQuery } from '../../interfaces.js';
+import { fetchPOSTResponse } from '../../network-helper.js';
+import Shared from '../../shared.js';
+import { TQueryInterface, TCategory } from '../../types.js';
+import { GenericAxiosError } from '../errors.js';
+import { Result } from '../result.js';
+
+import PrefixParser from './../prefix-parser.js';
 
 // Type definitions
 export type TThreadOrder = 'relevance' | 'date' | 'last_update' | 'replies';

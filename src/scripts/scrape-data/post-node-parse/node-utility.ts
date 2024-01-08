@@ -4,7 +4,7 @@
 // https://opensource.org/licenses/MIT
 
 // Modules from file
-import { IPostElement } from '../../interfaces';
+import { IPostElement } from '../../interfaces.js';
 
 /**
  * Check if the node has non empty `name` and `text`.

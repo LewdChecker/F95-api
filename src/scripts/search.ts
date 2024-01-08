@@ -4,17 +4,17 @@
 // https://opensource.org/licenses/MIT
 
 // Modules from file
-import { IQuery } from './interfaces';
-import getHandiworkInformation from './scrape-data/handiwork-parse';
-import fetchHandiworkURLs from './fetch-data/fetch-handiwork';
-import fetchLatestHandiworkURLs from './fetch-data/fetch-latest';
-import fetchThreadHandiworkURLs from './fetch-data/fetch-thread';
-import { UserNotLogged, USER_NOT_LOGGED } from './classes/errors';
-import shared from './shared';
-import HandiworkSearchQuery from './classes/query/handiwork-search-query';
-import LatestSearchQuery from './classes/query/latest-search-query';
-import ThreadSearchQuery from './classes/query/thread-search-query';
-import Basic from './classes/handiwork/basic';
+import { UserNotLogged, USER_NOT_LOGGED } from './classes/errors.js';
+import Basic from './classes/handiwork/basic.js';
+import HandiworkSearchQuery from './classes/query/handiwork-search-query.js';
+import LatestSearchQuery from './classes/query/latest-search-query.js';
+import ThreadSearchQuery from './classes/query/thread-search-query.js';
+import fetchHandiworkURLs from './fetch-data/fetch-handiwork.js';
+import fetchLatestHandiworkURLs from './fetch-data/fetch-latest.js';
+import fetchThreadHandiworkURLs from './fetch-data/fetch-thread.js';
+import { IQuery } from './interfaces.js';
+import getHandiworkInformation from './scrape-data/handiwork-parse.js';
+import shared from './shared.js';
 
 /**
  * Gets the handiworks that match the passed parameters.

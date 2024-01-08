@@ -4,14 +4,14 @@
 // https://opensource.org/licenses/MIT
 
 // Modules from file
-import { UserNotLogged, USER_NOT_LOGGED } from './classes/errors';
-import fetchPlatformData from './fetch-data/fetch-platform-data';
-import { authenticate, send2faCode, updateSession } from './network-helper';
-import shared from './shared';
+import Credentials from './classes/credentials.js';
+import { UserNotLogged, USER_NOT_LOGGED } from './classes/errors.js';
+import LoginResult from './classes/login-result.js';
+import fetchPlatformData from './fetch-data/fetch-platform-data.js';
+import { authenticate, send2faCode, updateSession } from './network-helper.js';
+import shared from './shared.js';
 
 // Classes from file
-import LoginResult from './classes/login-result';
-import Credentials from './classes/credentials';
 
 //#region Public methods
 

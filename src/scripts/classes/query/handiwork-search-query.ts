@@ -7,12 +7,13 @@
 import { AxiosResponse } from 'axios';
 
 // Module from files
-import { IQuery } from '../../interfaces';
-import { TQueryInterface, TCategory } from '../../types';
-import { GenericAxiosError } from '../errors';
-import { Result } from '../result';
-import LatestSearchQuery, { TLatestOrder } from './latest-search-query';
-import ThreadSearchQuery, { TThreadOrder } from './thread-search-query';
+import { IQuery } from '../../interfaces.js';
+import { TQueryInterface, TCategory } from '../../types.js';
+import { GenericAxiosError } from '../errors.js';
+import { Result } from '../result.js';
+
+import LatestSearchQuery, { TLatestOrder } from './latest-search-query.js';
+import ThreadSearchQuery, { TThreadOrder } from './thread-search-query.js';
 
 // Type definitions
 /**

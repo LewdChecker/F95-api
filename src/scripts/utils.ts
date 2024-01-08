@@ -27,6 +27,7 @@ export function getDateFromString(
   // Return the first
   return array.shift();
 }
+
 /**
  * Replace iso-datestring-validator's function with luxon
  */

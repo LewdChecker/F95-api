@@ -7,13 +7,13 @@
 import { AxiosResponse } from 'axios';
 
 // Modules from file
-import { urls } from '../../constants/url';
-import { IQuery } from '../../interfaces';
-import { fetchGETResponse } from '../../network-helper';
-import { TCategory, TQueryInterface } from '../../types';
-import { GenericAxiosError } from '../errors';
-import PrefixParser from '../prefix-parser';
-import { Result } from '../result';
+import { urls } from '../../constants/url.js';
+import { IQuery } from '../../interfaces.js';
+import { fetchGETResponse } from '../../network-helper.js';
+import { TCategory, TQueryInterface } from '../../types.js';
+import { GenericAxiosError } from '../errors.js';
+import PrefixParser from '../prefix-parser.js';
+import { Result } from '../result.js';
 
 // Type definitions
 export type TLatestOrder = 'date' | 'likes' | 'views' | 'title' | 'rating';

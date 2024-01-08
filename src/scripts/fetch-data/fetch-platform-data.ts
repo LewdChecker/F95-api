@@ -10,10 +10,10 @@ import { promises as fs, constants } from 'fs';
 import { load } from 'cheerio';
 
 // Modules from file
-import shared, { TPrefixDict } from '../shared';
-import { urls as f95url } from '../constants/url';
-import { GENERIC } from '../constants/css-selector';
-import { fetchHTML } from '../network-helper';
+import { GENERIC } from '../constants/css-selector.js';
+import { urls as f95url } from '../constants/url.js';
+import { fetchHTML } from '../network-helper.js';
+import shared, { TPrefixDict } from '../shared.js';
 
 //#region Interface definitions
 

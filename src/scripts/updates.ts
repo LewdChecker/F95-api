@@ -4,18 +4,18 @@
 // https://opensource.org/licenses/MIT
 
 // Modules from file
-import { UserNotLogged, USER_NOT_LOGGED } from './classes/errors';
-import fetchLatestHandiworkURLs from './fetch-data/fetch-latest';
-import { getHandiworkFromURL } from './handiwork-from-url';
-import { urlExists } from './network-helper';
-import getHandiworkInformation from './scrape-data/handiwork-parse';
-import shared from './shared';
-import { DEFAULT_DATE } from './constants/generic';
+import { UserNotLogged, USER_NOT_LOGGED } from './classes/errors.js';
+import Basic from './classes/handiwork/basic.js';
+import HandiWork from './classes/handiwork/handiwork.js';
+import LatestSearchQuery from './classes/query/latest-search-query.js';
+import { DEFAULT_DATE } from './constants/generic.js';
+import fetchLatestHandiworkURLs from './fetch-data/fetch-latest.js';
+import { getHandiworkFromURL } from './handiwork-from-url.js';
+import { urlExists } from './network-helper.js';
+import getHandiworkInformation from './scrape-data/handiwork-parse.js';
+import shared from './shared.js';
 
 // Classes from file
-import HandiWork from './classes/handiwork/handiwork';
-import LatestSearchQuery from './classes/query/latest-search-query';
-import Basic from './classes/handiwork/basic';
 
 /**
  * Gets the latest updated games that match the specified parameters.

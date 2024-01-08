@@ -7,22 +7,23 @@
 import { AnyNode, Cheerio, CheerioAPI, load } from 'cheerio';
 
 // Modules from file
-import { POST, THREAD } from '../../constants/css-selector';
-import { DEFAULT_DATE } from '../../constants/generic';
-import { urls } from '../../constants/url';
-import { ILazy, IPostElement } from '../../interfaces';
-import { fetchHTML } from '../../network-helper';
-import { extractDataFromFirstThreadPost } from '../../scrape-data/post-parse-tree';
-import shared from '../../shared';
-import { isValidISODateString } from '../../utils';
+import { POST, THREAD } from '../../constants/css-selector.js';
+import { DEFAULT_DATE } from '../../constants/generic.js';
+import { urls } from '../../constants/url.js';
+import { ILazy, IPostElement } from '../../interfaces.js';
+import { fetchHTML } from '../../network-helper.js';
+import { extractDataFromFirstThreadPost } from '../../scrape-data/post-parse-tree.js';
+import shared from '../../shared.js';
+import { isValidISODateString } from '../../utils.js';
 import {
   INVALID_POST_ID,
   InvalidID,
   MissingOrInvalidParsingAttribute,
   USER_NOT_LOGGED,
   UserNotLogged,
-} from '../errors';
-import PlatformUser from './platform-user';
+} from '../errors.js';
+
+import PlatformUser from './platform-user.js';
 
 /**
  * Represents a post published by a user on the F95Zone platform.

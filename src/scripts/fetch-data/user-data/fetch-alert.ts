@@ -7,11 +7,11 @@
 import { AnyNode, CheerioAPI, load } from 'cheerio';
 
 // Modules from files
-import { ALERT } from '../../constants/css-selector';
-import { urls } from '../../constants/url';
-import { IAlert } from '../../interfaces';
-import { fetchHTML } from '../../network-helper';
-import { TAlertReactionType, TAlertType } from '../../types';
+import { ALERT } from '../../constants/css-selector.js';
+import { urls } from '../../constants/url.js';
+import { IAlert } from '../../interfaces.js';
+import { fetchHTML } from '../../network-helper.js';
+import { TAlertReactionType, TAlertType } from '../../types.js';
 
 /**
  * Gets alert data starting from the source code of the page passed by parameter.

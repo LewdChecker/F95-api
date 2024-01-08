@@ -4,16 +4,15 @@
 // https://opensource.org/licenses/MIT
 
 // Modules from files
-import HandiWork from '../classes/handiwork/handiwork';
-import Thread from '../classes/mapping/thread';
-import { ILink, IPostElement } from '../interfaces';
-import shared, { TPrefixDict } from '../shared';
-import Handiwork from '../classes/handiwork/handiwork';
-import { isF95URL, isStringAValidURL } from '../network-helper';
-import { metadata as md } from '../constants/ot-metadata-values';
-import Basic from '../classes/handiwork/basic';
-import { getDateFromString } from '../utils';
-import { TAuthor, TChangelog, TCategory, TEngine, TStatus, TExternalPlatform } from '../types';
+import Basic from '../classes/handiwork/basic.js';
+import { default as HandiWork, default as Handiwork } from '../classes/handiwork/handiwork.js';
+import Thread from '../classes/mapping/thread.js';
+import { metadata as md } from '../constants/ot-metadata-values.js';
+import { ILink, IPostElement } from '../interfaces.js';
+import { isF95URL, isStringAValidURL } from '../network-helper.js';
+import shared, { TPrefixDict } from '../shared.js';
+import { TAuthor, TCategory, TChangelog, TEngine, TExternalPlatform, TStatus } from '../types.js';
+import { getDateFromString } from '../utils.js';
 
 /**
  * Gets information of a particular handiwork from its thread.

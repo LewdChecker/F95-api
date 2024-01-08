@@ -4,7 +4,7 @@
 // https://opensource.org/licenses/MIT
 
 // Modules from file
-import { getF95Token } from '../network-helper';
+import { getF95Token } from '../network-helper.js';
 
 /**
  * Represents the credentials used to access the platform.

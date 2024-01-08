@@ -4,11 +4,11 @@
 // https://opensource.org/licenses/MIT
 
 // Modules from file
-import { UserNotLogged, USER_NOT_LOGGED } from './classes/errors';
-import Basic from './classes/handiwork/basic';
-import { urlExists, isF95URL, isStringAValidURL } from './network-helper';
-import getHandiworkInformation from './scrape-data/handiwork-parse';
-import shared from './shared';
+import { UserNotLogged, USER_NOT_LOGGED } from './classes/errors.js';
+import Basic from './classes/handiwork/basic.js';
+import { urlExists, isF95URL, isStringAValidURL } from './network-helper.js';
+import getHandiworkInformation from './scrape-data/handiwork-parse.js';
+import shared from './shared.js';
 
 /**
  * Given the url, it gets all the information about the handiwork requested.

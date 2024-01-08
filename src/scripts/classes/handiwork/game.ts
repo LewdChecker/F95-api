@@ -4,10 +4,11 @@
 // https://opensource.org/licenses/MIT
 
 // Modules from files
-import { DEFAULT_DATE } from '../../constants/generic';
-import { IGame } from '../../interfaces';
-import { TEngine, TStatus } from '../../types';
-import Basic from './basic';
+import { DEFAULT_DATE } from '../../constants/generic.js';
+import { IGame } from '../../interfaces.js';
+import { TEngine, TStatus } from '../../types.js';
+
+import Basic from './basic.js';
 
 export default class Game extends Basic implements IGame {
   //#region Properties

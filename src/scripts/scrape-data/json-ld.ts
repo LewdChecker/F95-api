@@ -7,8 +7,8 @@
 import { Cheerio, AnyNode, Element, load } from 'cheerio';
 
 // Modules from file
-import shared from '../shared';
-import { THREAD } from '../constants/css-selector';
+import { THREAD } from '../constants/css-selector.js';
+import shared from '../shared.js';
 
 /**
  * Represents information contained in a JSON+LD tag.

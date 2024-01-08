@@ -1,20 +1,25 @@
 {
-    "compileOnSave": true,
-    "compilerOptions": {
-        "experimentalDecorators": true,
-        "outDir": "./dist",
-        "allowJs": true,
-        "module": "commonjs",
-        "target": "ESNext",
-        "moduleResolution": "node",
-        "esModuleInterop": true,
-        "allowSyntheticDefaultImports": true,
-        "incremental": true,
-        "sourceMap": true,
-        "strict": false,
-        "alwaysStrict": true,
-        "declaration": true,
-        "resolveJsonModule": true
-    },
-    "include": ["./src/**/*.ts"]
+  "compileOnSave": true,
+  "compilerOptions": {
+    "experimentalDecorators": true,
+    "outDir": "./dist",
+    "allowJs": true,
+    "module": "NodeNext",
+    "target": "ESNext",
+    "moduleResolution": "NodeNext",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "incremental": true,
+    "sourceMap": true,
+    "strict": false,
+    "alwaysStrict": true,
+    "declaration": true,
+    "resolveJsonModule": true,
+    "types": ["./src/index.d.ts"],
+    "paths": {
+      "cheerio": ["./node_modules/cheerio/lib/index.d.ts"]
+    }
+  },
+  "include": ["./src/**/*.ts"],
+  "exclude": ["./node_modules"]
 }

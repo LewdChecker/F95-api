@@ -4,8 +4,9 @@
 // https://opensource.org/licenses/MIT
 
 // Modules from files
-import { IComic } from '../../interfaces';
-import Basic from './basic';
+import { IComic } from '../../interfaces.js';
+
+import Basic from './basic.js';
 
 export default class Comic extends Basic implements IComic {
   //#region Properties

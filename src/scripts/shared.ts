@@ -13,7 +13,7 @@ import { join } from 'path';
 import log4js from '@log4js-node/log4js-api';
 
 // Modules from file
-import Session from './classes/session';
+import Session from './classes/session.js';
 
 // Types declaration
 export type TPrefixDict = Map<number, string>;

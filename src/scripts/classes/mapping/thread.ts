@@ -7,12 +7,15 @@
 import { load } from 'cheerio';
 
 // Modules from files
-import Post from './post';
-import PlatformUser from './platform-user';
-import { ILazy } from '../../interfaces';
-import { urls } from '../../constants/url';
-import { POST, THREAD } from '../../constants/css-selector';
-import { fetchHTML, fetchPOSTResponse, getUrlRedirect } from '../../network-helper';
+import { POST, THREAD } from '../../constants/css-selector.js';
+import { DEFAULT_DATE } from '../../constants/generic.js';
+import { urls } from '../../constants/url.js';
+import { ILazy } from '../../interfaces.js';
+import { fetchHTML, fetchPOSTResponse, getUrlRedirect } from '../../network-helper.js';
+import { getJSONLD, TJsonLD } from '../../scrape-data/json-ld.js';
+import shared from '../../shared.js';
+import { TRating, TCategory } from '../../types.js';
+import { getDateFromString } from '../../utils.js';
 import {
   InvalidID,
   InvalidResponseParsing,
@@ -21,12 +24,10 @@ import {
   ParameterError,
   UserNotLogged,
   USER_NOT_LOGGED,
-} from '../errors';
-import { getJSONLD, TJsonLD } from '../../scrape-data/json-ld';
-import shared from '../../shared';
-import { DEFAULT_DATE } from '../../constants/generic';
-import { getDateFromString } from '../../utils';
-import { TRating, TCategory } from '../../types';
+} from '../errors.js';
+
+import PlatformUser from './platform-user.js';
+import Post from './post.js';
 
 type TPostsForPage = 20 | 40 | 60 | 100;
 
