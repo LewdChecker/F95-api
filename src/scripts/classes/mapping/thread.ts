@@ -241,21 +241,29 @@ export default class Thread implements ILazy {
     const tagArray = $(THREAD.TAGS).toArray();
     const prefixArray = $(THREAD.PREFIXES).toArray();
     const JSONLD = getJSONLD($('body'));
-    const published = getDateFromString(JSONLD['datePublished'] as string);
-    const modified = getDateFromString(JSONLD['dateModified'] as string);
+
+    const description = JSONLD['description'] as string;
+
+    const publishedRegex = /Release Date:? *(\d+-\d+-\d+)/im;
+    const modifiedRegex = /Thread Update:? *(\d+-\d+-\d+)/im;
+    const rawPublished = publishedRegex.exec(description);
+    const rawModified = modifiedRegex.exec(description);
+    const published = rawPublished ? getDateFromString(rawPublished[0]) : null;
+    const modified = rawModified ? getDateFromString(rawModified[0]) : null;
 
     // Throws error if no ID is found
     if (!ownerID) throw new InvalidResponseParsing('Cannot get ID from HTML response');
 
     // Parse the thread's data
-    this._headline = JSONLD['headline'] as string;
+    // this._headline = JSONLD['headline'] as string;
+    this._headline = $(THREAD.TITLE).text() as string;
     this._title = this.cleanHeadline(this._headline);
     this._tags = tagArray.map(el => $(el).text().trim());
     this._prefixes = prefixArray.map(el => $(el).text().trim());
     this._owner = new PlatformUser(parseInt(ownerID, 10));
     await this._owner.fetch();
     this._rating = this.parseRating(JSONLD);
-    const section = JSONLD['articleSection'].toString().toLowerCase();
+    const section = $(THREAD.BREADCRUMBS).last().text().toLowerCase();
     this._category = section as TCategory;
 
     // Validate the dates

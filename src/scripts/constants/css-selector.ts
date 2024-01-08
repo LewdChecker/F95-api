@@ -302,6 +302,11 @@ export const THREAD = {
    * Posts on the current page.
    */
   POSTS_IN_PAGE: 'article.message',
+
+  /**
+   * Breadcrumbs of the current page.
+   */
+  BREADCRUMBS: '.p-breadcrumbs',
 };
 
 export const THREAD_SEARCH = {
