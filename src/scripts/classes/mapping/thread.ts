@@ -12,18 +12,18 @@ import { DEFAULT_DATE } from '../../constants/generic.js';
 import { urls } from '../../constants/url.js';
 import { ILazy } from '../../interfaces.js';
 import { fetchHTML, fetchPOSTResponse, getUrlRedirect } from '../../network-helper.js';
-import { getJSONLD, TJsonLD } from '../../scrape-data/json-ld.js';
+import { TJsonLD, getJSONLD } from '../../scrape-data/json-ld.js';
 import shared from '../../shared.js';
-import { TRating, TCategory } from '../../types.js';
+import { TCategory, TRating } from '../../types.js';
 import { getDateFromString } from '../../utils.js';
 import {
-  InvalidID,
-  InvalidResponseParsing,
   INVALID_THREAD_CONSTRUCTOR_ARGUMENT,
   INVALID_THREAD_ID,
+  InvalidID,
+  InvalidResponseParsing,
   ParameterError,
-  UserNotLogged,
   USER_NOT_LOGGED,
+  UserNotLogged,
 } from '../errors.js';
 
 import PlatformUser from './platform-user.js';
