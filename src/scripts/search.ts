@@ -4,7 +4,7 @@
 // https://opensource.org/licenses/MIT
 
 // Modules from file
-import { UserNotLogged, USER_NOT_LOGGED } from './classes/errors.js';
+import { USER_NOT_LOGGED, UserNotLogged } from './classes/errors.js';
 import Basic from './classes/handiwork/basic.js';
 import HandiworkSearchQuery from './classes/query/handiwork-search-query.js';
 import LatestSearchQuery from './classes/query/latest-search-query.js';

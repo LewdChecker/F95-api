@@ -4,7 +4,7 @@
 // https://opensource.org/licenses/MIT
 
 // Public modules from npm
-import { Cheerio, CheerioAPI, Element, AnyNode } from 'cheerio';
+import { AnyNode, Cheerio, CheerioAPI, Element } from 'cheerio';
 import { ElementType } from 'domelementtype';
 
 /**

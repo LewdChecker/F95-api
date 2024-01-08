@@ -20,7 +20,7 @@ import {
   UnexpectedResponseContentType,
 } from './classes/errors.js';
 import LoginResult from './classes/login-result.js';
-import { failure, Result, success } from './classes/result.js';
+import { Result, failure, success } from './classes/result.js';
 import { GENERIC } from './constants/css-selector.js';
 import { urls } from './constants/url.js';
 import shared from './shared.js';

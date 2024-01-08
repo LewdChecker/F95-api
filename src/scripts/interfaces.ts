@@ -5,15 +5,15 @@
 
 // Import types
 import {
+  TAlertReactionType,
+  TAlertType,
   TAuthor,
   TCategory,
   TChangelog,
-  TRating,
   TEngine,
-  TStatus,
   TQueryInterface,
-  TAlertType,
-  TAlertReactionType,
+  TRating,
+  TStatus,
 } from './types.js';
 
 /**

@@ -4,9 +4,9 @@
 // https://opensource.org/licenses/MIT
 
 // Modules from file
-import { UserNotLogged, USER_NOT_LOGGED } from './classes/errors.js';
+import { USER_NOT_LOGGED, UserNotLogged } from './classes/errors.js';
 import Basic from './classes/handiwork/basic.js';
-import { urlExists, isF95URL, isStringAValidURL } from './network-helper.js';
+import { isF95URL, isStringAValidURL, urlExists } from './network-helper.js';
 import getHandiworkInformation from './scrape-data/handiwork-parse.js';
 import shared from './shared.js';
 

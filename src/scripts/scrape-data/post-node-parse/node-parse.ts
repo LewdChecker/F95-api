@@ -4,7 +4,7 @@
 // https://opensource.org/licenses/MIT
 
 // Public modules from npm
-import { CheerioAPI, Cheerio, AnyNode } from 'cheerio';
+import { AnyNode, Cheerio, CheerioAPI } from 'cheerio';
 
 // Modules from file
 import { POST } from '../../constants/css-selector.js';

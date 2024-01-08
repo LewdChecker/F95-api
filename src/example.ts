@@ -17,6 +17,7 @@ F95_PASSWORD = YOUR_PASSWORD
 import * as recaptchaHarvester from '@millenniumearl/recaptcha-harvester';
 import dotenv from 'dotenv';
 import inquirer from 'inquirer';
+
 // import { CaptchaHarvest } from '@millenniumearl/recaptcha-harvester';
 
 // CommonJS modules
@@ -26,12 +27,12 @@ const { CaptchaHarvest } = recaptchaHarvester;
 import {
   Game,
   HandiworkSearchQuery,
-  UserProfile,
   loggerLevel,
   login,
   logout,
   searchHandiwork,
   setLoggerLevel,
+  UserProfile,
 } from './index.js';
 
 // Configure the .env reader

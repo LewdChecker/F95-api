@@ -4,7 +4,7 @@
 // https://opensource.org/licenses/MIT
 
 // Core modules
-import { promises as fs, constants } from 'fs';
+import { constants, promises as fs } from 'fs';
 
 // Public modules from npm
 import { load } from 'cheerio';

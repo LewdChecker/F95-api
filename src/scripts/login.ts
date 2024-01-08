@@ -5,7 +5,7 @@
 
 // Modules from file
 import Credentials from './classes/credentials.js';
-import { UserNotLogged, USER_NOT_LOGGED } from './classes/errors.js';
+import { USER_NOT_LOGGED, UserNotLogged } from './classes/errors.js';
 import LoginResult from './classes/login-result.js';
 import fetchPlatformData from './fetch-data/fetch-platform-data.js';
 import { authenticate, send2faCode, updateSession } from './network-helper.js';

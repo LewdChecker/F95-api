@@ -4,7 +4,7 @@
 // https://opensource.org/licenses/MIT
 
 // Public modules from npm
-import { Cheerio, AnyNode, load } from 'cheerio';
+import { AnyNode, Cheerio, load } from 'cheerio';
 
 // Modules from file
 import ThreadSearchQuery from '../classes/query/thread-search-query.js';

@@ -62,7 +62,7 @@ setLoggerLevel('warn'); // By default log only the warn messages
 
 export * from './scripts/handiwork-from-url.js';
 export * from './scripts/login.js';
-export * from './scripts/updates.js';
 export { default as searchHandiwork } from './scripts/search.js';
+export * from './scripts/updates.js';
 
 //#endregion Re-export methods

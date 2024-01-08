@@ -11,7 +11,7 @@ import { urls } from '../../constants/url.js';
 import { IQuery } from '../../interfaces.js';
 import { fetchPOSTResponse } from '../../network-helper.js';
 import Shared from '../../shared.js';
-import { TQueryInterface, TCategory } from '../../types.js';
+import { TCategory, TQueryInterface } from '../../types.js';
 import { GenericAxiosError } from '../errors.js';
 import { Result } from '../result.js';
 

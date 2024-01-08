@@ -4,7 +4,7 @@
 // https://opensource.org/licenses/MIT
 
 // Core modules
-import { promises as fs, existsSync } from 'fs';
+import { existsSync, promises as fs } from 'fs';
 
 // Public modules from npm
 import { sha256 } from 'js-sha256';
@@ -78,6 +78,7 @@ export default class Session {
    */
   constructor(p: string) {
     if (!p || p === '') throw new ParameterError('Invalid path for the session file');
+
     this._path = p;
     this._isMapped = existsSync(this.path);
     this._created = new Date(Date.now());
