@@ -4,27 +4,27 @@
 // https://opensource.org/licenses/MIT
 
 // Public modules from npm
-import { AxiosResponse } from "axios";
+import { AxiosResponse } from 'axios';
 
 // Module from files
-import { fetchPOSTResponse } from "../../network-helper";
-import { TQueryInterface, TCategory } from "../../types";
-import { GenericAxiosError } from "../errors";
-import PrefixParser from "./../prefix-parser";
-import { urls } from "../../constants/url";
-import { IQuery } from "../../interfaces";
-import { Result } from "../result";
-import Shared from "../../shared";
+import { fetchPOSTResponse } from '../../network-helper';
+import { TQueryInterface, TCategory } from '../../types';
+import { GenericAxiosError } from '../errors';
+import PrefixParser from './../prefix-parser';
+import { urls } from '../../constants/url';
+import { IQuery } from '../../interfaces';
+import { Result } from '../result';
+import Shared from '../../shared';
 
 // Type definitions
-export type TThreadOrder = "relevance" | "date" | "last_update" | "replies";
+export type TThreadOrder = 'relevance' | 'date' | 'last_update' | 'replies';
 
 export default class ThreadSearchQuery implements IQuery {
   //#region Private fields
 
   static MIN_PAGE = 1;
   #page: number = ThreadSearchQuery.MIN_PAGE;
-  #itype: TQueryInterface = "ThreadSearchQuery";
+  #itype: TQueryInterface = 'ThreadSearchQuery';
 
   //#endregion Private fields
 
@@ -33,7 +33,7 @@ export default class ThreadSearchQuery implements IQuery {
   /**
    * Keywords to use in the search.
    */
-  public keywords = "";
+  public keywords = '';
   /**
    * Indicates to search by checking only the thread titles and not the content.
    */
@@ -57,7 +57,7 @@ export default class ThreadSearchQuery implements IQuery {
   /**
    * Results presentation order.
    */
-  public order: TThreadOrder = "relevance";
+  public order: TThreadOrder = 'relevance';
   //#endregion Properties
 
   //#region Getters/Setters
@@ -96,34 +96,34 @@ export default class ThreadSearchQuery implements IQuery {
     const params = {};
 
     // Ad the session token
-    params["_xfToken"] = Shared.session.token;
+    params['_xfToken'] = Shared.session.token;
 
     // Specify if only the title should be searched
-    if (this.onlyTitles) params["c[title_only]"] = "1";
+    if (this.onlyTitles) params['c[title_only]'] = '1';
 
     // Add keywords
-    params["keywords"] = this.keywords ?? "*";
+    params['keywords'] = this.keywords ?? '*';
 
     // Specify the scope of the search (only "threads/post")
-    params["search_type"] = "post";
+    params['search_type'] = 'post';
 
     // Set the dates
     if (this.newerThan) {
       const date = this.convertShortDate(this.newerThan);
-      params["c[newer_than]"] = date;
+      params['c[newer_than]'] = date;
     }
 
     if (this.olderThan) {
       const date = this.convertShortDate(this.olderThan);
-      params["c[older_than]"] = date;
+      params['c[older_than]'] = date;
     }
 
     // Set included and excluded tags (joined with a comma)
-    if (this.includedTags) params["c[tags]"] = this.includedTags.join(",");
-    if (this.excludedTags) params["c[excludeTags]"] = this.excludedTags.join(",");
+    if (this.includedTags) params['c[tags]'] = this.includedTags.join(',');
+    if (this.excludedTags) params['c[excludeTags]'] = this.excludedTags.join(',');
 
     // Set minimum reply number
-    if (this.minimumReplies > 0) params["c[min_reply_count]"] = this.minimumReplies.toString();
+    if (this.minimumReplies > 0) params['c[min_reply_count]'] = this.minimumReplies.toString();
 
     // Add prefixes
     const parser = new PrefixParser();
@@ -134,15 +134,15 @@ export default class ThreadSearchQuery implements IQuery {
     }
 
     // Set the category
-    params["c[child_nodes]"] = "1"; // Always set
+    params['c[child_nodes]'] = '1'; // Always set
     if (this.category) {
       const catID = this.categoryToID(this.category).toString();
-      params["c[nodes][0]"] = catID;
+      params['c[nodes][0]'] = catID;
     }
 
     // Set the other values
-    params["order"] = this.order.toString();
-    params["page"] = this.page.toString();
+    params['order'] = this.order.toString();
+    params['page'] = this.page.toString();
 
     return params;
   }
@@ -153,7 +153,7 @@ export default class ThreadSearchQuery implements IQuery {
   private convertShortDate(d: Date): string {
     const offset = d.getTimezoneOffset();
     d = new Date(d.getTime() - offset * 60 * 1000);
-    return d.toISOString().split("T")[0];
+    return d.toISOString().split('T')[0];
   }
 
   /**
@@ -165,7 +165,7 @@ export default class ThreadSearchQuery implements IQuery {
       mods: 41,
       comics: 40,
       animations: 94,
-      assets: 95
+      assets: 95,
     };
 
     return catMap[category as string];

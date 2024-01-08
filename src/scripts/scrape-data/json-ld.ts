@@ -4,11 +4,11 @@
 // https://opensource.org/licenses/MIT
 
 // Public modules from npm
-import { Cheerio, AnyNode, Element, load } from "cheerio";
+import { Cheerio, AnyNode, Element, load } from 'cheerio';
 
 // Modules from file
-import shared from "../shared";
-import { THREAD } from "../constants/css-selector";
+import shared from '../shared';
+import { THREAD } from '../constants/css-selector';
 
 /**
  * Represents information contained in a JSON+LD tag.
@@ -21,7 +21,7 @@ export type TJsonLD = { [s: string]: string | TJsonLD };
  * @returns {TJsonLD[]} List of data obtained from the page
  */
 export function getJSONLD(body: Cheerio<AnyNode>): TJsonLD {
-  shared.logger.trace("Extracting JSON-LD data...");
+  shared.logger.trace('Extracting JSON-LD data...');
 
   // Fetch the JSON-LD data
   const structuredDataElements = body.find(THREAD.JSONLD);
@@ -29,8 +29,8 @@ export function getJSONLD(body: Cheerio<AnyNode>): TJsonLD {
   // Parse the data
   const values = structuredDataElements
     .get()
-    .filter((el) => el)
-    .map((el) => parseJSONLD(el));
+    .filter(el => el)
+    .map(el => parseJSONLD(el));
 
   // Merge the data and return a single value
   return mergeJSONLD(values);
@@ -60,7 +60,7 @@ function parseJSONLD(element: Element): TJsonLD {
   const html = load(element).html().trim();
 
   // Obtain the JSON-LD
-  const data = html.replace('<script type="application/ld+json">', "").replace("</script>", "");
+  const data = html.replace('<script type="application/ld+json">', '').replace('</script>', '');
 
   // Convert the string to an object
   return JSON.parse(data);

@@ -4,17 +4,17 @@
 // https://opensource.org/licenses/MIT
 
 // Core modules
-import { version } from "../../package.json";
+import { version } from '../../package.json';
 
 // Local modules
-import addDDoSSupport from "./ddos-guard-bypass";
-import shared from "./shared";
+import addDDoSSupport from './ddos-guard-bypass';
+import shared from './shared';
 
 // Public modules from npm
-import axios, { AxiosRequestConfig, AxiosInstance } from "axios";
-import axiosRetry from "axios-retry";
-import { wrapper as addCookieJarSupport } from "axios-cookiejar-support";
-import { urls } from "./constants/url";
+import axios, { AxiosRequestConfig, AxiosInstance } from 'axios';
+import axiosRetry from 'axios-retry';
+import { wrapper as addCookieJarSupport } from 'axios-cookiejar-support';
+import { urls } from './constants/url';
 
 /**
  * Explicit the HTTP adapter otherwise on Electron the XHR adapter
@@ -22,7 +22,7 @@ import { urls } from "./constants/url";
  *
  * From v1.0, the adapters are not exposed to API, waiting for patch...
  */
-axios.defaults.adapter = "http";
+axios.defaults.adapter = 'http';
 
 /**
  * User agent string used to describe this API.
@@ -41,9 +41,9 @@ const commonConfig: AxiosRequestConfig = {
    * Headers to add to the request.
    */
   headers: {
-    "User-Agent": USER_AGENT,
-    Connection: "keep-alive",
-    "Upgrade-Insecure-Requests": "1"
+    'User-Agent': USER_AGENT,
+    Connection: 'keep-alive',
+    'Upgrade-Insecure-Requests': '1',
   },
   /**
    * Specify if send credentials along the request.
@@ -59,7 +59,7 @@ const commonConfig: AxiosRequestConfig = {
   /**
    * Maximum number of milliseconds to wait for a response.
    */
-  timeout: 30000
+  timeout: 30000,
 };
 
 /**
@@ -78,7 +78,7 @@ export default function createAxiosAgent(): AxiosInstance {
   // Enable Axios to retry a request in case of errors
   axiosRetry(agent, {
     retryDelay: axiosRetry.exponentialDelay, // Use exponential back-off retry delay
-    shouldResetTimeout: true // Timer resets after every retry
+    shouldResetTimeout: true, // Timer resets after every retry
   });
 
   return agent;

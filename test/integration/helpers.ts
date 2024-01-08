@@ -4,12 +4,12 @@
 // https://opensource.org/licenses/MIT
 
 // Public modules from npm
-import dotenv from "dotenv";
-import inquirer from "inquirer";
+import dotenv from 'dotenv';
+import inquirer from 'inquirer';
 
 // Modulee from files
-import { login } from "../../src/index";
-import LoginResult from "../../src/scripts/classes/login-result";
+import { login } from '../../src/index';
+import LoginResult from '../../src/scripts/classes/login-result';
 
 // Configure the .env reader
 dotenv.config();
@@ -32,10 +32,10 @@ export async function auth(): Promise<LoginResult> {
 async function insert2faCode(): Promise<number> {
   const questions = [
     {
-      type: "input",
-      name: "code",
-      message: "Insert 2FA code:"
-    }
+      type: 'input',
+      name: 'code',
+      message: 'Insert 2FA code:',
+    },
   ];
 
   // Prompt the user to insert the code
@@ -44,7 +44,7 @@ async function insert2faCode(): Promise<number> {
 }
 
 async function insertCaptchaToken(): Promise<string> {
-  return "";
+  return '';
 }
 
 //#endregion Private methods

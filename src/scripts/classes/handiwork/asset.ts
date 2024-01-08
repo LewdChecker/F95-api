@@ -4,17 +4,17 @@
 // https://opensource.org/licenses/MIT
 
 // Modules from files
-import { IAsset } from "../../interfaces";
-import Basic from "./basic";
+import { IAsset } from '../../interfaces';
+import Basic from './basic';
 
 export default class Asset extends Basic implements IAsset {
   //#region Properties
-  assetLink: string = "";
+  assetLink: string = '';
   associatedAssets: string[] = [];
-  compatibleSoftware: string = "";
+  compatibleSoftware: string = '';
   includedAssets: string[] = [];
   officialLinks: string[] = [];
-  sku: string = "";
+  sku: string = '';
   //#endregion Properties
 
   public constructor(init?: Partial<Asset>) {

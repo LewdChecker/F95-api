@@ -4,15 +4,15 @@
 // https://opensource.org/licenses/MIT
 
 // Public module from npm
-import { expect } from "chai";
-import { load } from "cheerio";
+import { expect } from 'chai';
+import { load } from 'cheerio';
 
 // Modules from file
-import parseCheerioNode from "../../../../src/scripts/scrape-data/post-node-parse/node-parse";
-import { ILink } from "../../../../src/scripts/interfaces";
+import parseCheerioNode from '../../../../src/scripts/scrape-data/post-node-parse/node-parse';
+import { ILink } from '../../../../src/scripts/interfaces';
 
 export function suite(): void {
-  it("Parse spoiler node", function () {
+  it('Parse spoiler node', function () {
     // Arrange
     const html = `
     <div class="bbCodeSpoiler">
@@ -35,35 +35,35 @@ export function suite(): void {
         </div>
     </div>`;
     const $ = load(html);
-    const node = $("div.bbCodeSpoiler").get().shift();
+    const node = $('div.bbCodeSpoiler').get().shift();
 
     // Act
     const post = parseCheerioNode($, node);
 
     // Assert
-    expect(post.type).to.be.equal("Spoiler");
-    expect(post.name).to.be.equal("TITLE");
-    expect(post.text).to.be.equal("");
+    expect(post.type).to.be.equal('Spoiler');
+    expect(post.name).to.be.equal('TITLE');
+    expect(post.text).to.be.equal('');
     expect(post.content.length).to.be.equal(0);
   });
 
-  it("Parse text node", function () {
+  it('Parse text node', function () {
     // Arrange
     const html = "<div id='container'>TEXTVALUE</div>";
     const $ = load(html);
-    const node = $("#container").contents().get().shift();
+    const node = $('#container').contents().get().shift();
 
     // Act
     const post = parseCheerioNode($, node);
 
     // Assert
-    expect(post.type).to.be.equal("Text");
-    expect(post.name).to.be.equal("");
-    expect(post.text).to.be.equal("TEXTVALUE");
+    expect(post.type).to.be.equal('Text');
+    expect(post.name).to.be.equal('');
+    expect(post.text).to.be.equal('TEXTVALUE');
     expect(post.content.length).to.be.equal(0);
   });
 
-  it("Parse image node", function () {
+  it('Parse image node', function () {
     // Arrange
     const html = `
     <div id='container'>
@@ -71,20 +71,20 @@ export function suite(): void {
         class="bbImage lazyloaded" data-zoom-target="1" alt="TITLE" style="">
     </div>`;
     const $ = load(html);
-    const node = $("#container > img").get().shift();
+    const node = $('#container > img').get().shift();
 
     // Act
     const post = parseCheerioNode($, node) as ILink;
 
     // Assert
-    expect(post.type).to.be.equal("Image");
-    expect(post.name).to.be.equal("");
-    expect(post.text).to.be.equal("TITLE");
-    expect(post.href).to.be.equal("DATA_SRC");
+    expect(post.type).to.be.equal('Image');
+    expect(post.name).to.be.equal('');
+    expect(post.text).to.be.equal('TITLE');
+    expect(post.href).to.be.equal('DATA_SRC');
     expect(post.content.length).to.be.equal(0);
   });
 
-  it("Parse link node", function () {
+  it('Parse link node', function () {
     // Arrange
     const html = `
     <div id='container'>
@@ -92,20 +92,20 @@ export function suite(): void {
         has-favicon" rel="nofollow noopener">HYPERLINK TEXT</a>
     </div>`;
     const $ = load(html);
-    const node = $("#container > a").get().shift();
+    const node = $('#container > a').get().shift();
 
     // Act
     const post = parseCheerioNode($, node) as ILink;
 
     // Assert
-    expect(post.type).to.be.equal("Link");
-    expect(post.name).to.be.equal("");
-    expect(post.text).to.be.equal("HYPERLINK TEXT");
-    expect(post.href).to.be.equal("LINK");
+    expect(post.type).to.be.equal('Link');
+    expect(post.name).to.be.equal('');
+    expect(post.text).to.be.equal('HYPERLINK TEXT');
+    expect(post.href).to.be.equal('LINK');
     expect(post.content.length).to.be.equal(0);
   });
 
-  it("Parse generic node (empty)", function () {
+  it('Parse generic node (empty)', function () {
     // Arrange
     const html = `
     <div id='container'>
@@ -114,15 +114,15 @@ export function suite(): void {
         </ul>
     </div>`;
     const $ = load(html);
-    const node = $("#container > ul").get().shift();
+    const node = $('#container > ul').get().shift();
 
     // Act
     const post = parseCheerioNode($, node);
 
     // Assert
-    expect(post.type).to.be.equal("Empty");
-    expect(post.name).to.be.equal("");
-    expect(post.text).to.be.equal("");
+    expect(post.type).to.be.equal('Empty');
+    expect(post.name).to.be.equal('');
+    expect(post.text).to.be.equal('');
     expect(post.content.length).to.be.equal(0);
   });
 }

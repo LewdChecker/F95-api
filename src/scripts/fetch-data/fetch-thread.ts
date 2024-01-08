@@ -4,13 +4,13 @@
 // https://opensource.org/licenses/MIT
 
 // Public modules from npm
-import { Cheerio, AnyNode, load } from "cheerio";
+import { Cheerio, AnyNode, load } from 'cheerio';
 
 // Modules from file
-import shared from "../shared";
-import { THREAD_SEARCH } from "../constants/css-selector";
-import { urls as f95urls } from "../constants/url";
-import ThreadSearchQuery from "../classes/query/thread-search-query";
+import shared from '../shared';
+import { THREAD_SEARCH } from '../constants/css-selector';
+import { urls as f95urls } from '../constants/url';
+import ThreadSearchQuery from '../classes/query/thread-search-query';
 
 //#region Public methods
 
@@ -50,7 +50,7 @@ async function fetchResultURLs(html: string, limit: number = 30): Promise<string
   const $ = load(html);
 
   // Here we get all the DIV that are the body of the various query results
-  const results = $("body").find(THREAD_SEARCH.BODY);
+  const results = $('body').find(THREAD_SEARCH.BODY);
 
   // Than we extract the URLs
   const urls = results
@@ -70,9 +70,9 @@ async function fetchResultURLs(html: string, limit: number = 30): Promise<string
  * @returns {String} URL to thread
  */
 function extractLinkFromResult(selector: Cheerio<AnyNode>): string {
-  shared.logger.trace("Extracting thread link from result...");
+  shared.logger.trace('Extracting thread link from result...');
 
-  const partialLink = selector.find(THREAD_SEARCH.THREAD_TITLE).attr("href").trim();
+  const partialLink = selector.find(THREAD_SEARCH.THREAD_TITLE).attr('href').trim();
 
   // Compose and return the URL
   return new URL(partialLink, f95urls.BASE).toString();

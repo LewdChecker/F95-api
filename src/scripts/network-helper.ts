@@ -4,26 +4,26 @@
 // https://opensource.org/licenses/MIT
 
 // Public modules from npm
-import { AxiosError, AxiosResponse } from "axios";
-import { load } from "cheerio";
-import { Semaphore } from "await-semaphore";
+import { AxiosError, AxiosResponse } from 'axios';
+import { load } from 'cheerio';
+import { Semaphore } from 'await-semaphore';
 
 // Modules from file
-import shared from "./shared";
-import { urls } from "./constants/url";
-import { GENERIC } from "./constants/css-selector";
-import LoginResult from "./classes/login-result";
-import { failure, Result, success } from "./classes/result";
+import shared from './shared';
+import { urls } from './constants/url';
+import { GENERIC } from './constants/css-selector';
+import LoginResult from './classes/login-result';
+import { failure, Result, success } from './classes/result';
 import {
   ERROR_CODE,
   GenericAxiosError,
   InvalidF95Token,
   NoPreviousSession,
   PREVIOUS_SESSION_NOT_EXISTENT,
-  UnexpectedResponseContentType
-} from "./classes/errors";
-import Credentials from "./classes/credentials";
-import createAxiosAgent from "./agent";
+  UnexpectedResponseContentType,
+} from './classes/errors';
+import Credentials from './classes/credentials';
+import createAxiosAgent from './agent';
 
 // Types
 type TLookupMapCode = {
@@ -31,16 +31,16 @@ type TLookupMapCode = {
   message: string;
 };
 
-type TProvider = "auto" | "totp" | "email";
+type TProvider = 'auto' | 'totp' | 'email';
 
 // Global variables
 const MAX_CONCURRENT_REQUESTS = 15;
-const AUTH_SUCCESSFUL_MESSAGE = "Authentication successful";
+const AUTH_SUCCESSFUL_MESSAGE = 'Authentication successful';
 const INVALID_2FA_CODE_MESSAGE =
-  "The two-step verification value could not be confirmed. Please try again";
-const INCORRECT_CREDENTIALS_MESSAGE = "Incorrect password. Please try again.";
+  'The two-step verification value could not be confirmed. Please try again';
+const INCORRECT_CREDENTIALS_MESSAGE = 'Incorrect password. Please try again.';
 const REQUIRE_CAPTCHA_VERIFICATION =
-  "You did not complete the CAPTCHA verification properly. Please try again.";
+  'You did not complete the CAPTCHA verification properly. Please try again.';
 
 /**
  * Axios agent used to send requests.
@@ -66,12 +66,12 @@ export async function fetchHTML(
 
   if (response.isSuccess()) {
     // Check if the response is a HTML source code
-    const isHTML = response.value.headers["content-type"].includes("text/html");
+    const isHTML = response.value.headers['content-type'].includes('text/html');
 
     const unexpectedResponseError = new UnexpectedResponseContentType({
       id: ERROR_CODE.UNEXPECTED_HTML_RESPONSE,
-      message: `Expected HTML but received ${response.value["content-type"]}`,
-      error: new Error(`Expected HTML but received ${response.value["content-type"]}`)
+      message: `Expected HTML but received ${response.value['content-type']}`,
+      error: new Error(`Expected HTML but received ${response.value['content-type']}`),
     });
 
     return isHTML ? success(response.value.data as string) : failure(unexpectedResponseError);
@@ -100,15 +100,15 @@ export async function authenticate(
   // Prepare the parameters to send to the platform to authenticate
   const params = {
     login: credentials.username,
-    url: "",
+    url: '',
     password: credentials.password,
-    password_confirm: "",
-    additional_security: "",
-    remember: "1",
-    _xfRedirect: "https://f95zone.to/",
-    website_code: "",
+    password_confirm: '',
+    additional_security: '',
+    remember: '1',
+    _xfRedirect: 'https://f95zone.to/',
+    website_code: '',
     _xfToken: credentials.token,
-    "g-recaptcha-response": captchaToken
+    'g-recaptcha-response': captchaToken,
   };
 
   // Try to log-in
@@ -118,7 +118,7 @@ export async function authenticate(
   const response = await fetchPOSTResponse(secureURL, params);
 
   // Parse the response
-  const result = response.applyOnSuccess((r) => manageLoginPOSTResponse(r));
+  const result = response.applyOnSuccess(r => manageLoginPOSTResponse(r));
 
   // Manage result
   if (result.isFailure()) {
@@ -139,28 +139,28 @@ export async function authenticate(
 export async function send2faCode(
   code: number,
   token: string,
-  provider: TProvider = "auto",
+  provider: TProvider = 'auto',
   trustedDevice: boolean = false
 ): Promise<Result<GenericAxiosError, LoginResult>> {
   // Prepare the parameters to send via POST request
   const params = {
     _xfRedirect: urls.BASE,
-    _xfRequestUri: "/login/two-step?_xfRedirect=https%3A%2F%2Ff95zone.to%2F&remember=1",
-    _xfResponseType: "json",
+    _xfRequestUri: '/login/two-step?_xfRedirect=https%3A%2F%2Ff95zone.to%2F&remember=1',
+    _xfResponseType: 'json',
     _xfToken: token,
-    _xfWithData: "1",
+    _xfWithData: '1',
     code: code.toString(),
-    confirm: "1",
+    confirm: '1',
     provider: provider,
-    remember: "1",
-    trust: trustedDevice ? "1" : "0"
+    remember: '1',
+    trust: trustedDevice ? '1' : '0',
   };
 
   // Send 2FA params
   const response = await fetchPOSTResponse(urls.LOGIN_2FA, params);
 
   // Check if the authentication is valid
-  const validAuth = response.applyOnSuccess((r) => manage2faResponse(r));
+  const validAuth = response.applyOnSuccess(r => manage2faResponse(r));
 
   if (validAuth.isSuccess() && validAuth.value.isSuccess()) {
     // Valid login
@@ -185,16 +185,16 @@ export async function updateSession(): Promise<void> {
 
   // Check if the user had already authenticated in a previous session
   const cookies = await shared.session.cookieJar.getCookies(urls.BASE);
-  const xfUser = cookies.find((c) => c.key === "xf_user");
+  const xfUser = cookies.find(c => c.key === 'xf_user');
   if (!xfUser) throw new NoPreviousSession(PREVIOUS_SESSION_NOT_EXISTENT);
 
   // First get the xf_session and xf_csrf cookies from F95Zone
-  shared.logger.info("Updating session cookies...");
+  shared.logger.info('Updating session cookies...');
   await getSessionCookies();
 
   // Then update the local _xfToken.
   // This value depends on the current xf_csrf cookie value
-  shared.logger.info("Updating _xfToken...");
+  shared.logger.info('Updating _xfToken...');
   const token = await getF95Token();
   shared.session.updateToken(token);
 }
@@ -209,7 +209,7 @@ export async function getF95Token(): Promise<string> {
   if (response.isSuccess()) {
     // The response is a HTML page, we need to find the <input> with name "_xfToken"
     const $ = load(response.value.data as string);
-    return $("body").find(GENERIC.GET_REQUEST_TOKEN).attr("value");
+    return $('body').find(GENERIC.GET_REQUEST_TOKEN).attr('value');
   } else throw response.value;
 }
 
@@ -230,7 +230,7 @@ export async function fetchGETResponse(
   try {
     // Fetch and return the response
     const response = await agent.get(url, {
-      jar: shared.session.cookieJar
+      jar: shared.session.cookieJar,
     });
     return success(response);
   } catch (e) {
@@ -240,7 +240,7 @@ export async function fetchGETResponse(
     const genericError = new GenericAxiosError({
       id: ERROR_CODE.CANNOT_FETCH_GET_RESPONSE,
       message: message,
-      error: err
+      error: err,
     });
     return failure(genericError);
   } finally {
@@ -271,7 +271,7 @@ export async function fetchPOSTResponse(
   // Send the POST request and await the response
   try {
     const response = await agent.post(url, urlParams, {
-      jar: shared.session.cookieJar
+      jar: shared.session.cookieJar,
     });
     return success(response);
   } catch (e) {
@@ -280,7 +280,7 @@ export async function fetchPOSTResponse(
     const genericError = new GenericAxiosError({
       id: ERROR_CODE.CANNOT_FETCH_POST_RESPONSE,
       message: err,
-      error: e
+      error: e,
     });
     return failure(genericError);
   } finally {
@@ -303,7 +303,7 @@ export async function fetchHEADResponse(
 
   try {
     const response = await agent.head(url, {
-      jar: shared.session.cookieJar
+      jar: shared.session.cookieJar,
     });
     return success(response);
   } catch (e) {
@@ -312,7 +312,7 @@ export async function fetchHEADResponse(
     const genericError = new GenericAxiosError({
       id: ERROR_CODE.CANNOT_FETCH_HEAD_RESPONSE,
       message: err,
-      error: e
+      error: e,
     });
     return failure(genericError);
   } finally {
@@ -325,7 +325,7 @@ export async function fetchHEADResponse(
  * Enforces the scheme of the URL is https and returns the new URL.
  */
 export function enforceHttpsUrl(url: string): string {
-  if (isStringAValidURL(url)) return url.replace(/^(https?:)?\/\//, "https://");
+  if (isStringAValidURL(url)) return url.replace(/^(https?:)?\/\//, 'https://');
   else throw new URIError(`'${url}' is not a valid URL`);
 }
 
@@ -411,8 +411,8 @@ async function getSessionCookies(): Promise<void> {
     await agent.get(urls.BASE, {
       jar: shared.session.cookieJar,
       headers: {
-        Cookie: await getUserCookieString() // Force cookie header
-      }
+        Cookie: await getUserCookieString(), // Force cookie header
+      },
     });
   } catch (e) {
     const err = `(GET) Error "${e.message}" occurred while trying to fetch session cookies`;
@@ -420,7 +420,7 @@ async function getSessionCookies(): Promise<void> {
     const genericError = new GenericAxiosError({
       id: ERROR_CODE.CANNOT_FETCH_SESSION_TOKENS,
       message: err,
-      error: e
+      error: e,
     });
     throw genericError;
   }
@@ -435,9 +435,9 @@ async function getSessionCookies(): Promise<void> {
  */
 async function getUserCookieString(): Promise<string> {
   const cookies = await shared.session.cookieJar.getCookies(urls.BASE);
-  const userCookie = cookies.find((cookie) => cookie.key === "xf_user");
+  const userCookie = cookies.find(cookie => cookie.key === 'xf_user');
 
-  return userCookie ? userCookie.cookieString() : "";
+  return userCookie ? userCookie.cookieString() : '';
 }
 
 /**
@@ -448,7 +448,7 @@ async function axiosUrlExists(url: string): Promise<boolean> {
   if (!isStringAValidURL(url)) throw new URIError(`'${url}' is not a valid URL`);
 
   // Local variables
-  const ERROR_CODES = ["ENOTFOUND", "ETIMEDOUT"];
+  const ERROR_CODES = ['ENOTFOUND', 'ETIMEDOUT'];
   let valid = false;
 
   // Send a HEAD request
@@ -457,7 +457,7 @@ async function axiosUrlExists(url: string): Promise<boolean> {
   // Parse response
   const status = (r.value as AxiosResponse<any>).status;
   const error = (r.value as GenericAxiosError).error as AxiosError<any>;
-  const errorCode = error?.code ?? "";
+  const errorCode = error?.code ?? '';
 
   if (r.isSuccess()) valid = r.value && !/4\d\d/.test(status.toString());
   else if (r.isFailure() && !ERROR_CODES.includes(errorCode)) throw r.value.error;
@@ -477,24 +477,24 @@ function manageLoginPOSTResponse(response: AxiosResponse<any>) {
     return new LoginResult(
       false,
       LoginResult.REQUIRE_2FA,
-      "Two-factor authentication is needed to continue"
+      'Two-factor authentication is needed to continue'
     );
   }
 
   // Get the error message (if any) and remove the new line chars
-  const genericError = $("body").find(GENERIC.LOGIN_MESSAGE_ERROR).text().replace(/\n/g, "");
+  const genericError = $('body').find(GENERIC.LOGIN_MESSAGE_ERROR).text().replace(/\n/g, '');
 
   // Check if there is a security error (in another css block)
-  const securityError = $("body")
+  const securityError = $('body')
     .find(GENERIC.LOGIN_SECURITY_MESSAGE_ERROR)
     .text()
-    .replace(/\n\t/g, "");
+    .replace(/\n\t/g, '');
 
-  let errorMessage = genericError !== "" ? genericError : securityError;
+  let errorMessage = genericError !== '' ? genericError : securityError;
 
   // Check if the user ID is available
-  const availableUserID = $("body").find(GENERIC.CURRENT_USER_ID).length !== 0;
-  if (!availableUserID && !errorMessage) errorMessage = "Successful request but user not logged in";
+  const availableUserID = $('body').find(GENERIC.CURRENT_USER_ID).length !== 0;
+  if (!availableUserID && !errorMessage) errorMessage = 'Successful request but user not logged in';
 
   // Return the result of the authentication
   const result = errorMessage.trim().length === 0 && availableUserID;
@@ -512,23 +512,23 @@ function messageToCode(message: string): number {
   const mapDict: TLookupMapCode[] = [
     {
       code: LoginResult.AUTH_SUCCESSFUL,
-      message: AUTH_SUCCESSFUL_MESSAGE
+      message: AUTH_SUCCESSFUL_MESSAGE,
     },
     {
       code: LoginResult.INCORRECT_CREDENTIALS,
-      message: INCORRECT_CREDENTIALS_MESSAGE
+      message: INCORRECT_CREDENTIALS_MESSAGE,
     },
     {
       code: LoginResult.INCORRECT_2FA_CODE,
-      message: INVALID_2FA_CODE_MESSAGE
+      message: INVALID_2FA_CODE_MESSAGE,
     },
     {
       code: LoginResult.REQUIRE_CAPTCHA,
-      message: REQUIRE_CAPTCHA_VERIFICATION
-    }
+      message: REQUIRE_CAPTCHA_VERIFICATION,
+    },
   ];
 
-  const result = mapDict.find((e) => e.message === message);
+  const result = mapDict.find(e => e.message === message);
   return result ? result.code : LoginResult.UNKNOWN_ERROR;
 }
 
@@ -537,18 +537,18 @@ function messageToCode(message: string): number {
  */
 function manage2faResponse(r: AxiosResponse<any>): Result<TProvider, LoginResult> {
   // The html property exists only if the provider is wrong
-  const rightProvider = !("html" in r.data);
+  const rightProvider = !('html' in r.data);
 
   // Wrong provider!
   if (!rightProvider) {
     const $ = load(r.data.html.content);
-    const expectedProvider = $(GENERIC.EXPECTED_2FA_PROVIDER).attr("value");
+    const expectedProvider = $(GENERIC.EXPECTED_2FA_PROVIDER).attr('value');
     return failure(expectedProvider as TProvider);
   }
 
   // r.data.status is 'ok' if the authentication is successful
-  const result = r.data.status === "ok";
-  const message: string = result ? AUTH_SUCCESSFUL_MESSAGE : r.data.errors.join(",");
+  const result = r.data.status === 'ok';
+  const message: string = result ? AUTH_SUCCESSFUL_MESSAGE : r.data.errors.join(',');
   const loginCode = messageToCode(message);
   return success(new LoginResult(result, loginCode, message));
 }

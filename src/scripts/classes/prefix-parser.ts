@@ -4,7 +4,7 @@
 // https://opensource.org/licenses/MIT
 
 // Modules from file
-import shared, { TPrefixDict } from "../shared";
+import shared, { TPrefixDict } from '../shared';
 
 /**
  * Convert prefixes and platform tags from string to ID and vice versa.
@@ -18,7 +18,7 @@ export default class PrefixParser {
    * @returns Key found or `undefined`
    */
   private getKeyByValue(object: TPrefixDict, value: string): number | undefined {
-    return Array.from(object.keys()).find((key) => object.get(key) === value);
+    return Array.from(object.keys()).find(key => object.get(key) === value);
   }
 
   /**
@@ -47,10 +47,10 @@ export default class PrefixParser {
     for (const [key, subdict] of Object.entries(shared.prefixes)) {
       // Check if the element is a value in the sub-dict
       const valueInDict =
-        typeof element === "string" && this.valueInDict(subdict, element as string);
+        typeof element === 'string' && this.valueInDict(subdict, element as string);
 
       // Check if the element is a key in the subdict
-      const keyInDict = typeof element === "number" && subdict.has(element);
+      const keyInDict = typeof element === 'number' && subdict.has(element);
 
       if (valueInDict || keyInDict) {
         dictName = key;

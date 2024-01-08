@@ -4,25 +4,25 @@
 // https://opensource.org/licenses/MIT
 
 // Public modules from npm
-import { Cheerio, CheerioAPI, AnyNode, load } from "cheerio";
-import { isValidISODateString } from "iso-datestring-validator";
+import { Cheerio, CheerioAPI, AnyNode, load } from 'cheerio';
+import { isValidISODateString } from 'iso-datestring-validator';
 
 // Modules from file
-import PlatformUser from "./platform-user";
-import { POST, THREAD } from "../../constants/css-selector";
-import { urls } from "../../constants/url";
-import { fetchHTML } from "../../network-helper";
-import shared from "../../shared";
+import PlatformUser from './platform-user';
+import { POST, THREAD } from '../../constants/css-selector';
+import { urls } from '../../constants/url';
+import { fetchHTML } from '../../network-helper';
+import shared from '../../shared';
 import {
   InvalidID,
   INVALID_POST_ID,
   MissingOrInvalidParsingAttribute,
   UserNotLogged,
-  USER_NOT_LOGGED
-} from "../errors";
-import { ILazy, IPostElement } from "../../interfaces";
-import { extractDataFromFirstThreadPost } from "../../scrape-data/post-parse-tree";
-import { DEFAULT_DATE } from "../../constants/generic";
+  USER_NOT_LOGGED,
+} from '../errors';
+import { ILazy, IPostElement } from '../../interfaces';
+import { extractDataFromFirstThreadPost } from '../../scrape-data/post-parse-tree';
+import { DEFAULT_DATE } from '../../constants/generic';
 
 /**
  * Represents a post published by a user on the F95Zone platform.
@@ -36,7 +36,7 @@ export default class Post implements ILazy {
   private _lastEdit: Date = DEFAULT_DATE;
   private _owner: PlatformUser = undefined as any;
   private _bookmarked: boolean = false;
-  private _message: string = "";
+  private _message: string = '';
   private _body: IPostElement[] = [];
 
   //#endregion Fields
@@ -136,9 +136,9 @@ export default class Post implements ILazy {
 
     const post = $(THREAD.POSTS_IN_PAGE)
       .toArray()
-      .find((el) => {
+      .find(el => {
         // Fetch the ID and check if it is what we are searching
-        const sid = findAttribute($(el), POST.ID, "id").replace("post-", "").trim();
+        const sid = findAttribute($(el), POST.ID, 'id').replace('post-', '').trim();
         const id = parseInt(sid, 10);
 
         if (id === this.id) return el;
@@ -159,25 +159,25 @@ export default class Post implements ILazy {
    */
   private async parsePost($: CheerioAPI, post: Cheerio<AnyNode>): Promise<void> {
     // Find post's ID
-    const sid: string = findAttribute(post, POST.ID, "id").replace("post-", "");
+    const sid: string = findAttribute(post, POST.ID, 'id').replace('post-', '');
     this._id = parseInt(sid, 10);
 
     // Find post's number
-    const sNumber: string = post.find(POST.NUMBER).text().replace("#", "");
+    const sNumber: string = post.find(POST.NUMBER).text().replace('#', '');
     this._number = parseInt(sNumber, 10);
 
     // Find post's publishing date
-    const sPublishing = findAttribute(post, POST.PUBLISH_DATE, "datetime");
+    const sPublishing = findAttribute(post, POST.PUBLISH_DATE, 'datetime');
     if (isValidISODateString(sPublishing)) this._published = new Date(sPublishing);
 
     // Find post's last edit date (could not exists if the post was never edited)
-    const sLastEdit = findAttribute(post, POST.LAST_EDIT, "datetime", false);
+    const sLastEdit = findAttribute(post, POST.LAST_EDIT, 'datetime', false);
     if (isValidISODateString(sLastEdit)) this._lastEdit = new Date(sLastEdit);
     else this._lastEdit = this._published;
 
     // Find post's owner (if no ID is found than the user has been deleted)
-    const ownerID = findAttribute(post, POST.OWNER_ID, "data-user-id", false);
-    if (ownerID !== "") {
+    const ownerID = findAttribute(post, POST.OWNER_ID, 'data-user-id', false);
+    if (ownerID !== '') {
       this._owner = new PlatformUser(parseInt(ownerID.trim(), 10));
       await this._owner.fetch();
     }
@@ -206,9 +206,9 @@ function findAttribute(
   selector: string,
   attribute: string,
   raise: boolean = true
-): string | "" {
+): string | '' {
   // Extract the attribute
-  const extracted = e.find(selector).attr(attribute) ?? "";
+  const extracted = e.find(selector).attr(attribute) ?? '';
 
   // Check if the attribute is undefined
   if (!extracted && raise) {

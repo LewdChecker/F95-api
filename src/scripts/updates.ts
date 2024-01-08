@@ -4,18 +4,18 @@
 // https://opensource.org/licenses/MIT
 
 // Modules from file
-import { UserNotLogged, USER_NOT_LOGGED } from "./classes/errors";
-import fetchLatestHandiworkURLs from "./fetch-data/fetch-latest";
-import { getHandiworkFromURL } from "./handiwork-from-url";
-import { urlExists } from "./network-helper";
-import getHandiworkInformation from "./scrape-data/handiwork-parse";
-import shared from "./shared";
-import { DEFAULT_DATE } from "./constants/generic";
+import { UserNotLogged, USER_NOT_LOGGED } from './classes/errors';
+import fetchLatestHandiworkURLs from './fetch-data/fetch-latest';
+import { getHandiworkFromURL } from './handiwork-from-url';
+import { urlExists } from './network-helper';
+import getHandiworkInformation from './scrape-data/handiwork-parse';
+import shared from './shared';
+import { DEFAULT_DATE } from './constants/generic';
 
 // Classes from file
-import HandiWork from "./classes/handiwork/handiwork";
-import LatestSearchQuery from "./classes/query/latest-search-query";
-import Basic from "./classes/handiwork/basic";
+import HandiWork from './classes/handiwork/handiwork';
+import LatestSearchQuery from './classes/query/latest-search-query';
+import Basic from './classes/handiwork/basic';
 
 /**
  * Gets the latest updated games that match the specified parameters.
@@ -32,7 +32,7 @@ export async function getLatestUpdates<T extends Basic>(
   limit: number = 30
 ): Promise<T[]> {
   // Check limit value
-  if (limit <= 0) throw new Error("Limit must be greater than 0");
+  if (limit <= 0) throw new Error('Limit must be greater than 0');
 
   // Check if the user is logged
   if (!shared.isLogged) throw new UserNotLogged(USER_NOT_LOGGED);
@@ -65,11 +65,11 @@ export async function checkIfHandiworkHasUpdate<T extends Basic>(hw: T): Promise
     const onlineHw = await getHandiworkFromURL<HandiWork>(hw.url, HandiWork);
 
     // Check if properties exists in the object
-    const version = hw["version"] as string;
-    const lastRelease = hw["lastRelease"] as Date;
+    const version = hw['version'] as string;
+    const lastRelease = hw['lastRelease'] as Date;
 
     // Compare different values
-    if (version !== "") {
+    if (version !== '') {
       hasUpdate = onlineHw.version.toUpperCase() !== version.toUpperCase();
     } else if (lastRelease != DEFAULT_DATE) {
       hasUpdate = onlineHw.lastRelease.getTime() !== lastRelease.getTime();

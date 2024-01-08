@@ -6,18 +6,18 @@
 /* c8 ignore start */
 
 // Core modules
-import { tmpdir } from "os";
-import { join } from "path";
+import { tmpdir } from 'os';
+import { join } from 'path';
 
 // Public modules from npm
-import log4js from "@log4js-node/log4js-api";
+import log4js from '@log4js-node/log4js-api';
 
 // Modules from file
-import Session from "./classes/session";
+import Session from './classes/session';
 
 // Types declaration
 export type TPrefixDict = Map<number, string>;
-type TPrefixKey = "engines" | "statuses" | "tags" | "others";
+type TPrefixKey = 'engines' | 'statuses' | 'tags' | 'others';
 type TPrefixes = { [key in TPrefixKey]: TPrefixDict };
 
 /**
@@ -29,7 +29,7 @@ export default abstract class Shared {
   private static _isLogged = false;
   private static _prefixes: TPrefixes = {} as TPrefixes;
   private static _logger: log4js.Logger = log4js.getLogger();
-  private static _session = new Session(join(tmpdir(), "f95session.json"));
+  private static _session = new Session(join(tmpdir(), 'f95session.json'));
 
   //#endregion Fields
 
@@ -57,7 +57,7 @@ export default abstract class Shared {
    * Path to the cache used by this module wich contains engines, statuses, tags...
    */
   static get cachePath(): string {
-    return join(tmpdir(), "f95cache.json");
+    return join(tmpdir(), 'f95cache.json');
   }
   /**
    * Session on the F95Zone platform.

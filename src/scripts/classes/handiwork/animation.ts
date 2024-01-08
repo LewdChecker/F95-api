@@ -4,17 +4,17 @@
 // https://opensource.org/licenses/MIT
 
 // Modules from files
-import { IAnimation } from "../../interfaces";
-import Basic from "./basic";
+import { IAnimation } from '../../interfaces';
+import Basic from './basic';
 
 export default class Animation extends Basic implements IAnimation {
   //#region Properties
   censored: boolean = false;
   genre: string[] = [];
-  installation: string = "";
+  installation: string = '';
   language: string[] = [];
-  length: string = "";
-  pages: string = "";
+  length: string = '';
+  pages: string = '';
   resolution: string[] = [];
   //#endregion Properties
 

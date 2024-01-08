@@ -4,17 +4,17 @@
 // https://opensource.org/licenses/MIT
 
 // Public modules from npm
-import { load } from "cheerio";
-import { isValidISODateString } from "iso-datestring-validator";
+import { load } from 'cheerio';
+import { isValidISODateString } from 'iso-datestring-validator';
 
 // Modules from files
-import { urls } from "../../constants/url";
-import { fetchHTML } from "../../network-helper";
-import { GENERIC, MEMBER } from "../../constants/css-selector";
-import shared from "../../shared";
-import { InvalidID, INVALID_USER_ID, UserNotLogged, USER_NOT_LOGGED } from "../errors";
-import { ILazy } from "../../interfaces";
-import { DEFAULT_DATE } from "../../constants/generic";
+import { urls } from '../../constants/url';
+import { fetchHTML } from '../../network-helper';
+import { GENERIC, MEMBER } from '../../constants/css-selector';
+import shared from '../../shared';
+import { InvalidID, INVALID_USER_ID, UserNotLogged, USER_NOT_LOGGED } from '../errors';
+import { ILazy } from '../../interfaces';
+import { DEFAULT_DATE } from '../../constants/generic';
 
 /**
  * Represents a generic user registered on the platform.
@@ -23,8 +23,8 @@ export default class PlatformUser implements ILazy {
   //#region Fields
 
   private _id: number;
-  private _name: string = "";
-  private _title: string = "";
+  private _name: string = '';
+  private _title: string = '';
   private _banners: string[] = [];
   private _messages: number = 0;
   private _reactionScore: number = 0;
@@ -35,7 +35,7 @@ export default class PlatformUser implements ILazy {
   private _followed: boolean = false;
   private _ignored: boolean = false;
   private _private: boolean = false;
-  private _avatar: string = "";
+  private _avatar: string = '';
   private _amountDonated: number = 0;
 
   //#endregion Fields
@@ -153,7 +153,7 @@ export default class PlatformUser implements ILazy {
 
     // Fetch the page
     const response = await fetchHTML(url);
-    const result = response.applyOnSuccess((html) => this.elaborateResponse(html));
+    const result = response.applyOnSuccess(html => this.elaborateResponse(html));
     if (result.isFailure()) throw response.value;
   }
 
@@ -172,7 +172,7 @@ export default class PlatformUser implements ILazy {
     // Check if the profile is private
     this._private =
       $(GENERIC.ERROR_BANNER)?.text().trim() ===
-      "This member limits who may view their full profile.";
+      'This member limits who may view their full profile.';
 
     if (!this._private) {
       // Parse the elements
@@ -180,25 +180,25 @@ export default class PlatformUser implements ILazy {
       this._title = $(MEMBER.TITLE).text();
       this._banners = $(MEMBER.BANNERS)
         .toArray()
-        .map((el) => $(el).text().trim())
-        .filter((el) => el);
-      this._avatar = new URL($(MEMBER.AVATAR).attr("src"), urls.BASE).toString() ?? "";
-      this._followed = $(MEMBER.FOLLOWED).text() === "Unfollow";
-      this._ignored = $(MEMBER.IGNORED).text() === "Unignore";
+        .map(el => $(el).text().trim())
+        .filter(el => el);
+      this._avatar = new URL($(MEMBER.AVATAR).attr('src'), urls.BASE).toString() ?? '';
+      this._followed = $(MEMBER.FOLLOWED).text() === 'Unfollow';
+      this._ignored = $(MEMBER.IGNORED).text() === 'Unignore';
       this._messages = parseInt($(MEMBER.MESSAGES).text(), 10);
       this._reactionScore = parseInt($(MEMBER.REACTION_SCORE).text(), 10);
       this._points = parseInt($(MEMBER.POINTS).text(), 10);
       this._ratingsReceived = parseInt($(MEMBER.RATINGS_RECEIVED).text(), 10);
 
       // Parse date
-      const joined = $(MEMBER.JOINED)?.attr("datetime");
+      const joined = $(MEMBER.JOINED)?.attr('datetime');
       if (joined && isValidISODateString(joined)) this._joined = new Date(joined);
 
-      const lastSeen = $(MEMBER.LAST_SEEN)?.attr("datetime");
+      const lastSeen = $(MEMBER.LAST_SEEN)?.attr('datetime');
       if (lastSeen && isValidISODateString(lastSeen)) this._joined = new Date(lastSeen);
 
       // Parse donation
-      const donation = $(MEMBER.AMOUNT_DONATED)?.text().replace("$", "");
+      const donation = $(MEMBER.AMOUNT_DONATED)?.text().replace('$', '');
       this._amountDonated = donation ? parseInt(donation, 10) : 0;
     }
   }

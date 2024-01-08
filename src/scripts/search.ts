@@ -4,17 +4,17 @@
 // https://opensource.org/licenses/MIT
 
 // Modules from file
-import { IQuery } from "./interfaces";
-import getHandiworkInformation from "./scrape-data/handiwork-parse";
-import fetchHandiworkURLs from "./fetch-data/fetch-handiwork";
-import fetchLatestHandiworkURLs from "./fetch-data/fetch-latest";
-import fetchThreadHandiworkURLs from "./fetch-data/fetch-thread";
-import { UserNotLogged, USER_NOT_LOGGED } from "./classes/errors";
-import shared from "./shared";
-import HandiworkSearchQuery from "./classes/query/handiwork-search-query";
-import LatestSearchQuery from "./classes/query/latest-search-query";
-import ThreadSearchQuery from "./classes/query/thread-search-query";
-import Basic from "./classes/handiwork/basic";
+import { IQuery } from './interfaces';
+import getHandiworkInformation from './scrape-data/handiwork-parse';
+import fetchHandiworkURLs from './fetch-data/fetch-handiwork';
+import fetchLatestHandiworkURLs from './fetch-data/fetch-latest';
+import fetchThreadHandiworkURLs from './fetch-data/fetch-thread';
+import { UserNotLogged, USER_NOT_LOGGED } from './classes/errors';
+import shared from './shared';
+import HandiworkSearchQuery from './classes/query/handiwork-search-query';
+import LatestSearchQuery from './classes/query/latest-search-query';
+import ThreadSearchQuery from './classes/query/thread-search-query';
+import Basic from './classes/handiwork/basic';
 
 /**
  * Gets the handiworks that match the passed parameters.
@@ -36,7 +36,7 @@ export default async function search<T extends Basic>(
   const urls: string[] = await getURLsFromQuery(query, limit);
 
   // Fetch the data
-  const results = urls.map((url) => getHandiworkInformation<T>(url, type));
+  const results = urls.map(url => getHandiworkInformation<T>(url, type));
 
   return Promise.all(results);
 }
@@ -57,7 +57,7 @@ async function getURLsFromQuery(query: IQuery, limit = 30): Promise<string[]> {
     LatestSearchQuery: (query: IQuery, limit: number) =>
       fetchLatestHandiworkURLs(query as LatestSearchQuery, limit),
     ThreadSearchQuery: (query: IQuery, limit: number) =>
-      fetchThreadHandiworkURLs(query as ThreadSearchQuery, limit)
+      fetchThreadHandiworkURLs(query as ThreadSearchQuery, limit),
   };
 
   // Throws error if the type of query is non existent

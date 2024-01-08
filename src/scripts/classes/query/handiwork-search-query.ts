@@ -4,15 +4,15 @@
 // https://opensource.org/licenses/MIT
 
 // Public modules from npm
-import { AxiosResponse } from "axios";
+import { AxiosResponse } from 'axios';
 
 // Module from files
-import { IQuery } from "../../interfaces";
-import { TQueryInterface, TCategory } from "../../types";
-import { GenericAxiosError } from "../errors";
-import { Result } from "../result";
-import LatestSearchQuery, { TLatestOrder } from "./latest-search-query";
-import ThreadSearchQuery, { TThreadOrder } from "./thread-search-query";
+import { IQuery } from '../../interfaces';
+import { TQueryInterface, TCategory } from '../../types';
+import { GenericAxiosError } from '../errors';
+import { Result } from '../result';
+import LatestSearchQuery, { TLatestOrder } from './latest-search-query';
+import ThreadSearchQuery, { TThreadOrder } from './thread-search-query';
 
 // Type definitions
 /**
@@ -33,14 +33,14 @@ import ThreadSearchQuery, { TThreadOrder } from "./thread-search-query";
  *
  * `views`: Order based on the number of visits. Replacement: `replies`.
  */
-type THandiworkOrder = "date" | "likes" | "relevance" | "replies" | "title" | "views";
+type THandiworkOrder = 'date' | 'likes' | 'relevance' | 'replies' | 'title' | 'views';
 type TExecuteResult = Result<GenericAxiosError, AxiosResponse<any>>;
 
 export default class HandiworkSearchQuery implements IQuery {
   //#region Private fields
 
   static MIN_PAGE = 1;
-  #itype: TQueryInterface = "HandiworkSearchQuery";
+  #itype: TQueryInterface = 'HandiworkSearchQuery';
   #page: number = HandiworkSearchQuery.MIN_PAGE;
 
   //#endregion Private fields
@@ -50,7 +50,7 @@ export default class HandiworkSearchQuery implements IQuery {
   /**
    * Keywords to use in the search.
    */
-  public keywords = "";
+  public keywords = '';
   /**
    * The results must be more recent than the date indicated.
    */
@@ -66,7 +66,7 @@ export default class HandiworkSearchQuery implements IQuery {
   /**
    * Results presentation order.
    */
-  public order: THandiworkOrder = "relevance";
+  public order: THandiworkOrder = 'relevance';
 
   //#endregion Properties
 
@@ -92,15 +92,15 @@ export default class HandiworkSearchQuery implements IQuery {
    * performed based on the properties of
    * the query.
    */
-  public selectSearchType(): "latest" | "thread" {
+  public selectSearchType(): 'latest' | 'thread' {
     // Local variables
     const MAX_TAGS_LATEST_SEARCH = 5;
-    const DEFAULT_SEARCH_TYPE = "latest";
+    const DEFAULT_SEARCH_TYPE = 'latest';
 
     // If the keywords are set or the number
     // of included tags is greather than 5,
     // we must perform a thread search
-    if (this.keywords || this.includedTags.length > MAX_TAGS_LATEST_SEARCH) return "thread";
+    if (this.keywords || this.includedTags.length > MAX_TAGS_LATEST_SEARCH) return 'thread';
 
     return DEFAULT_SEARCH_TYPE;
   }
@@ -110,9 +110,9 @@ export default class HandiworkSearchQuery implements IQuery {
     let response: TExecuteResult = null;
 
     // Convert the query
-    if (this.selectSearchType() === "latest")
-      response = await this.cast<LatestSearchQuery>("LatestSearchQuery").execute();
-    else response = await this.cast<ThreadSearchQuery>("ThreadSearchQuery").execute();
+    if (this.selectSearchType() === 'latest')
+      response = await this.cast<LatestSearchQuery>('LatestSearchQuery').execute();
+    else response = await this.cast<ThreadSearchQuery>('ThreadSearchQuery').execute();
 
     return response;
   }
@@ -122,8 +122,8 @@ export default class HandiworkSearchQuery implements IQuery {
     let returnValue = null;
 
     // Convert the query
-    if (type === "LatestSearchQuery") returnValue = this.castToLatest();
-    else if (type === "ThreadSearchQuery") returnValue = this.castToThread();
+    if (type === 'LatestSearchQuery') returnValue = this.castToLatest();
+    else if (type === 'ThreadSearchQuery') returnValue = this.castToThread();
     else returnValue = this as HandiworkSearchQuery;
 
     // Cast the result to T
@@ -137,7 +137,7 @@ export default class HandiworkSearchQuery implements IQuery {
   private castToLatest(): LatestSearchQuery {
     // Cast the basic query object and copy common values
     const query: LatestSearchQuery = new LatestSearchQuery();
-    Object.keys(this).forEach((key) => {
+    Object.keys(this).forEach(key => {
       if (Object.prototype.hasOwnProperty.call(query, key)) {
         query[key] = this[key];
       }
@@ -148,8 +148,8 @@ export default class HandiworkSearchQuery implements IQuery {
 
     // Adapt order filter
     let orderFilter = this.order as string;
-    if (orderFilter === "relevance") orderFilter = "rating";
-    else if (orderFilter === "replies") orderFilter = "views";
+    if (orderFilter === 'relevance') orderFilter = 'rating';
+    else if (orderFilter === 'replies') orderFilter = 'views';
     query.order = orderFilter as TLatestOrder;
 
     // Adapt date
@@ -161,7 +161,7 @@ export default class HandiworkSearchQuery implements IQuery {
   private castToThread(): ThreadSearchQuery {
     // Cast the basic query object and copy common values
     const query: ThreadSearchQuery = new ThreadSearchQuery();
-    Object.keys(this).forEach((key) => {
+    Object.keys(this).forEach(key => {
       if (Object.prototype.hasOwnProperty.call(query, key)) {
         query[key] = this[key];
       }
@@ -172,8 +172,8 @@ export default class HandiworkSearchQuery implements IQuery {
 
     // Adapt order filter
     let orderFilter = this.order as string;
-    if (orderFilter === "title") orderFilter = "relevance";
-    else if (orderFilter === "likes") orderFilter = "replies";
+    if (orderFilter === 'title') orderFilter = 'relevance';
+    else if (orderFilter === 'likes') orderFilter = 'replies';
     query.order = orderFilter as TThreadOrder;
 
     return query;

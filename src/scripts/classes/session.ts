@@ -4,14 +4,14 @@
 // https://opensource.org/licenses/MIT
 
 // Core modules
-import { promises as fs, existsSync } from "fs";
+import { promises as fs, existsSync } from 'fs';
 
 // Public modules from npm
-import { sha256 } from "js-sha256";
-import tough, { CookieJar } from "tough-cookie";
-import { ParameterError } from "./errors";
-import { urls } from "../constants/url";
-import { DEFAULT_DATE } from "../constants/generic";
+import { sha256 } from 'js-sha256';
+import tough, { CookieJar } from 'tough-cookie';
+import { ParameterError } from './errors';
+import { urls } from '../constants/url';
+import { DEFAULT_DATE } from '../constants/generic';
 
 export default class Session {
   //#region Fields
@@ -75,7 +75,7 @@ export default class Session {
    * Initializes the session by setting the path for saving information to disk.
    */
   constructor(p: string) {
-    if (!p || p === "") throw new ParameterError("Invalid path for the session file");
+    if (!p || p === '') throw new ParameterError('Invalid path for the session file');
     this._path = p;
     this._isMapped = existsSync(this.path);
     this._created = new Date(Date.now());
@@ -107,7 +107,7 @@ export default class Session {
       _created: this._created,
       _hash: this._hash,
       _token: this._token,
-      _serializedCookieJar: this._serializedCookieJar
+      _serializedCookieJar: this._serializedCookieJar,
     };
   }
 
@@ -158,8 +158,8 @@ export default class Session {
     if (this.isMapped) {
       // Read data
       const data = await fs.readFile(this.path, {
-        encoding: "utf-8",
-        flag: "r"
+        encoding: 'utf-8',
+        flag: 'r',
       });
       const json = JSON.parse(data);
 
@@ -193,7 +193,7 @@ export default class Session {
     const cookies = await this._cookieJar.getCookies(urls.BASE);
 
     // Get the user cookie, the only not session-based
-    const userCookie = cookies.find((cookie) => cookie.key === "xf_user");
+    const userCookie = cookies.find(cookie => cookie.key === 'xf_user');
 
     // Remove all the cookies from the store and re-add the user cookie
     await this._cookieJar.removeAllCookies();
@@ -218,7 +218,7 @@ export default class Session {
     const hashValid = sha256(value) === this._hash;
 
     // Verify if the user cookie is valid
-    const xfUser = this._cookieJar.getCookiesSync(urls.BASE).find((c) => c.key === "xf_user");
+    const xfUser = this._cookieJar.getCookiesSync(urls.BASE).find(c => c.key === 'xf_user');
     const cookieCreation = xfUser ? xfUser.creation : DEFAULT_DATE;
     const cookieDateDiff = this.dateDiffInDays(now, cookieCreation);
 

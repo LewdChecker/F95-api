@@ -4,14 +4,14 @@
 // https://opensource.org/licenses/MIT
 
 // Public modules from npm
-import { CheerioAPI, AnyNode, load } from "cheerio";
+import { AnyNode, CheerioAPI, load } from 'cheerio';
 
 // Modules from files
-import { TAlertType, TAlertReactionType } from "../../types";
-import { ALERT } from "../../constants/css-selector";
-import { urls } from "../../constants/url";
-import { IAlert } from "../../interfaces";
-import { fetchHTML } from "../../network-helper";
+import { ALERT } from '../../constants/css-selector';
+import { urls } from '../../constants/url';
+import { IAlert } from '../../interfaces';
+import { fetchHTML } from '../../network-helper';
+import { TAlertReactionType, TAlertType } from '../../types';
 
 /**
  * Gets alert data starting from the source code of the page passed by parameter.
@@ -24,18 +24,18 @@ export default async function fetchAlertElements(html: string): Promise<IAlert[]
   const bodies = $(ALERT.BODIES).toArray();
 
   // Now find all the summarized alerts and parse them
-  const summarizedPosts = bodies.filter((el) => isSummarized($, el));
+  const summarizedPosts = bodies.filter(el => isSummarized($, el));
   /* c8 ignore next */
-  const summarizedPromises = summarizedPosts.map((el) => {
+  const summarizedPromises = summarizedPosts.map(el => {
     // Find the URL
-    const partialURL = $(el).find(ALERT.SUMMARIZED_SEPARATE_ALERTS).attr("href");
+    const partialURL = $(el).find(ALERT.SUMMARIZED_SEPARATE_ALERTS).attr('href');
     return fetchSummarizedAlerts(partialURL);
   });
 
   // Find all the NON summarized alerts
   const alerts = bodies
-    .filter((el) => !summarizedPosts.includes(el))
-    .map((el) => parseAlertElement($, el));
+    .filter(el => !summarizedPosts.includes(el))
+    .map(el => parseAlertElement($, el));
 
   // Wait for all the promises to finish then flat the list
   const listToFlatten = await Promise.all(summarizedPromises);
@@ -72,11 +72,11 @@ async function fetchSummarizedAlerts(partialURL: string) {
  */
 function parseAlertType(text: string): TAlertType {
   // Keywords to define alert types
-  const RATING = "RATED";
-  const REPLY = "REPLIED";
-  const REACTION = "REACTED";
-  const QUOTE = "QUOTED";
-  const TROPHY = "YOU HAVE BEEN AWARDED A TROPHY";
+  const RATING = 'RATED';
+  const REPLY = 'REPLIED';
+  const REACTION = 'REACTED';
+  const QUOTE = 'QUOTED';
+  const TROPHY = 'YOU HAVE BEEN AWARDED A TROPHY';
 
   // Prepare the text
   const t = text.trim().toUpperCase();
@@ -88,12 +88,12 @@ function parseAlertType(text: string): TAlertType {
     Reply: (t: string) => t.includes(REPLY),
     Reaction: (t: string) => t.includes(REACTION),
     Quote: (t: string) => t.includes(QUOTE),
-    Award: (t: string) => t.includes(TROPHY)
+    Award: (t: string) => t.includes(TROPHY),
   };
 
   // Parse and return the type of the node
-  const result = Object.keys(functionMap).find((e) => functionMap[e](t));
-  return result ? (result as TAlertType) : "Unknown";
+  const result = Object.keys(functionMap).find(e => functionMap[e](t));
+  return result ? (result as TAlertType) : 'Unknown';
 }
 
 /**
@@ -102,17 +102,17 @@ function parseAlertType(text: string): TAlertType {
  */
 function parseReactionTypeFromAlert(text: string): TAlertReactionType {
   // Keywords to define reaction types
-  const LIKE = "LIKE";
-  const HEY_THERE = "HEY THERE";
-  const LOVE = "LOVE";
-  const JIZZED = "I JUST JIZZED MY PANTS";
-  const HEARTH = "HEARTH";
-  const YAY = "YAY, NEW UPDATE!";
-  const HAHA = "HAHA";
-  const SAD = "SAD";
-  const THINKING = "THINKING FACE";
-  const FACEPALM = "FACEPALM";
-  const WOW = "WOW";
+  const LIKE = 'LIKE';
+  const HEY_THERE = 'HEY THERE';
+  const LOVE = 'LOVE';
+  const JIZZED = 'I JUST JIZZED MY PANTS';
+  const HEARTH = 'HEARTH';
+  const YAY = 'YAY, NEW UPDATE!';
+  const HAHA = 'HAHA';
+  const SAD = 'SAD';
+  const THINKING = 'THINKING FACE';
+  const FACEPALM = 'FACEPALM';
+  const WOW = 'WOW';
 
   // Prepare the text
   const t = text.trim().toUpperCase();
@@ -130,11 +130,11 @@ function parseReactionTypeFromAlert(text: string): TAlertReactionType {
     Sad: (t: string) => t.includes(SAD),
     Thinking: (t: string) => t.includes(THINKING),
     Facepalm: (t: string) => t.includes(FACEPALM),
-    Wow: (t: string) => t.includes(WOW)
+    Wow: (t: string) => t.includes(WOW),
   };
 
   // Parse and return the type of the node
-  const result = Object.keys(functionMap).find((e) => functionMap[e](t));
+  const result = Object.keys(functionMap).find(e => functionMap[e](t));
   return result ? (result as TAlertReactionType) : null;
 }
 
@@ -145,17 +145,17 @@ function parseReactionTypeFromAlert(text: string): TAlertReactionType {
  */
 function parseAlertElement($: CheerioAPI, el: AnyNode): IAlert {
   // Find the ID of the user that caused the alert
-  const sid = $(el).find(ALERT.ACTOR).attr("data-user-id");
+  const sid = $(el).find(ALERT.ACTOR).attr('data-user-id');
 
   // Find the referenced URL
-  const partial = $(el).find(ALERT.REFERENCE_PAGE).attr("href");
+  const partial = $(el).find(ALERT.REFERENCE_PAGE).attr('href');
   const url = new URL(partial, urls.BASE).toString();
 
   // Find the reaction type (if any)
   const reactionText = $(el).find(ALERT.REACTION).text();
 
   // Find the alert date
-  const isotime = $(el).find(ALERT.ALERT_TIME).attr("datetime");
+  const isotime = $(el).find(ALERT.ALERT_TIME).attr('datetime');
 
   // Return as array so if there are summarized alerts we can flatten at the end
   return {
@@ -164,6 +164,6 @@ function parseAlertElement($: CheerioAPI, el: AnyNode): IAlert {
     linkedURL: url,
     reaction: reactionText ? parseReactionTypeFromAlert(reactionText) : null,
     date: new Date(isotime),
-    read: $(el).find(ALERT.MARK_UNREAD_BUTTON).length === 1
+    read: $(el).find(ALERT.MARK_UNREAD_BUTTON).length === 1,
   } as IAlert;
 }

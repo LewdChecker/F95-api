@@ -4,14 +4,14 @@
 // https://opensource.org/licenses/MIT
 
 // Public module from npm
-import { expect } from "chai";
-import { load } from "cheerio";
+import { expect } from 'chai';
+import { load } from 'cheerio';
 
 // Modules from file
-import { getJSONLD } from "../../../src/scripts/scrape-data/json-ld";
+import { getJSONLD } from '../../../src/scripts/scrape-data/json-ld';
 
 export function suite(): void {
-  it("Extract JSON+LD data from HTML", function () {
+  it('Extract JSON+LD data from HTML', function () {
     // Arrange
     const html = `
     <div id='container'>
@@ -31,13 +31,13 @@ export function suite(): void {
         </script>
     </div>`;
     const $ = load(html);
-    const node = $("#container");
+    const node = $('#container');
 
     // Act
     const jsonld = getJSONLD(node);
 
     // Assert
-    expect(jsonld["@type"]).to.be.equal("Book");
-    expect(jsonld["aggregateRating"]["ratingValue"]).to.be.equal("5");
+    expect(jsonld['@type']).to.be.equal('Book');
+    expect(jsonld['aggregateRating']['ratingValue']).to.be.equal('5');
   });
 }

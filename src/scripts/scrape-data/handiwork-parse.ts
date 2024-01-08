@@ -4,16 +4,16 @@
 // https://opensource.org/licenses/MIT
 
 // Modules from files
-import HandiWork from "../classes/handiwork/handiwork";
-import Thread from "../classes/mapping/thread";
-import { ILink, IPostElement } from "../interfaces";
-import shared, { TPrefixDict } from "../shared";
-import Handiwork from "../classes/handiwork/handiwork";
-import { isF95URL, isStringAValidURL } from "../network-helper";
-import { metadata as md } from "../constants/ot-metadata-values";
-import Basic from "../classes/handiwork/basic";
-import { getDateFromString } from "../utils";
-import { TAuthor, TChangelog, TCategory, TEngine, TStatus, TExternalPlatform } from "../types";
+import HandiWork from '../classes/handiwork/handiwork';
+import Thread from '../classes/mapping/thread';
+import { ILink, IPostElement } from '../interfaces';
+import shared, { TPrefixDict } from '../shared';
+import Handiwork from '../classes/handiwork/handiwork';
+import { isF95URL, isStringAValidURL } from '../network-helper';
+import { metadata as md } from '../constants/ot-metadata-values';
+import Basic from '../classes/handiwork/basic';
+import { getDateFromString } from '../utils';
+import { TAuthor, TChangelog, TCategory, TEngine, TStatus, TExternalPlatform } from '../types';
 
 /**
  * Gets information of a particular handiwork from its thread.
@@ -34,13 +34,13 @@ export default async function getHandiworkInformation<T extends Basic>(
 
   // Fetch info from opening post
   const post = await thread.getPost(1);
-  if (!post) throw new Error("Cannot find opening thread");
+  if (!post) throw new Error('Cannot find opening thread');
   const postData = extractPostData(post.body);
 
   // On older game template the version is not
   // specified in the OP, so we need to parse
   // it from the title
-  if (!postData.version || postData.version === "") {
+  if (!postData.version || postData.version === '') {
     const authors = postData.authors as TAuthor[];
     const version = getVersionFromHeadline(thread.headline, authors);
     postData.version = version;
@@ -72,7 +72,7 @@ export default async function getHandiworkInformation<T extends Basic>(
     lastRelease: postData.lastRelease as Date,
     authors: postData.authors as TAuthor[],
     changelog: postData.changelog as TChangelog[],
-    cover: postData.cover as string
+    cover: postData.cover as string,
   });
 
   // Cast and return the object
@@ -91,7 +91,7 @@ export default async function getHandiworkInformation<T extends Basic>(
  */
 /* c8 ignore start */
 function extractIDFromURL(url: string): number {
-  shared.logger.trace("Extracting ID from URL...");
+  shared.logger.trace('Extracting ID from URL...');
 
   // Validate URL
   if (!isStringAValidURL(url)) throw new URIError(`'${url}' is not a valid URL`);
@@ -138,8 +138,8 @@ function stringInDict(s: string, a: TPrefixDict): boolean {
  */
 function stringToBoolean(s: string): boolean {
   // Local variables
-  const positiveTerms = ["true", "yes", "1"];
-  const negativeTerms = ["false", "no", "0"];
+  const positiveTerms = ['true', 'yes', '1'];
+  const negativeTerms = ['false', 'no', '0'];
   const cleanString = s.toLowerCase().trim();
   let result = Boolean(s);
 
@@ -160,15 +160,15 @@ function getPostElementByName(
 ): IPostElement | undefined {
   // Inside function used to find the element with the given name
   function findElement(es: IPostElement[], name: string) {
-    return es.find((e) => e.name.toUpperCase() === name.toUpperCase());
+    return es.find(e => e.name.toUpperCase() === name.toUpperCase());
   }
 
   // Find the elements with the given names, filter
   // for "undefined" and return the first element or
   // "undefined" if no element is found
   return searchValue
-    .map((name) => findElement(elements, name))
-    .filter((post) => post !== undefined)
+    .map(name => findElement(elements, name))
+    .filter(post => post !== undefined)
     .shift();
 }
 
@@ -183,7 +183,7 @@ async function getThread(t: Thread | string): Promise<Thread> {
 
   // Fetch thread data
   /* c8 ignore start */
-  if (typeof t === "string") {
+  if (typeof t === 'string') {
     const id = extractIDFromURL(t);
     thread = new Thread(id);
     await thread.fetch();
@@ -202,24 +202,24 @@ async function getThread(t: Thread | string): Promise<Thread> {
 function getVersionFromHeadline(headline: string, authors: TAuthor[]): string {
   // Find all the elements in the square brackets (version and author)
   const matches = headline.match(/(?<=\[)(.*?)(?=\])/g);
-  if (!matches) return "";
+  if (!matches) return '';
 
   // Parse the matches to ignore the author
   let version = matches
-    .map((match) => {
+    .map(match => {
       const isAuthor = authors
-        .map((a) => a.name.toUpperCase()) // Get all the author's names
-        .some((name) => match.toUpperCase().includes(name)); // Check if the current match is an author
+        .map(a => a.name.toUpperCase()) // Get all the author's names
+        .some(name => match.toUpperCase().includes(name)); // Check if the current match is an author
 
       return isAuthor ? null : match;
     })
-    .filter((v) => v !== null)
+    .filter(v => v !== null)
     .shift();
 
   // Remove trailing "v" if any
-  version = version ?? ""; // Avoid `null` version
+  version = version ?? ''; // Avoid `null` version
   const hasTrailingV = version?.match(/^[v|V](?=\d)/i)?.length !== 0;
-  version = hasTrailingV ? version : version.replace("v", "");
+  version = hasTrailingV ? version : version.replace('v', '');
 
   return version;
 }
@@ -231,7 +231,7 @@ function getVersionFromHeadline(headline: string, authors: TAuthor[]): string {
  * `Engine`, `Status`, `Mod`.
  */
 function extractPrefixes(prefixes: string[], category: TCategory) {
-  shared.logger.trace("Parsing prefixes...");
+  shared.logger.trace('Parsing prefixes...');
 
   // Local variables
   let engine: TEngine = null;
@@ -240,23 +240,23 @@ function extractPrefixes(prefixes: string[], category: TCategory) {
 
   for (const item of prefixes) {
     // Remove the square brackets
-    const prefix = item.replace("[", "").replace("]", "");
+    const prefix = item.replace('[', '').replace(']', '');
 
     // Check what the prefix indicates
-    if (stringInDict(prefix, shared.prefixes["engines"])) engine = prefix as TEngine;
-    else if (stringInDict(prefix, shared.prefixes["statuses"])) status = prefix as TStatus;
+    if (stringInDict(prefix, shared.prefixes['engines'])) engine = prefix as TEngine;
+    else if (stringInDict(prefix, shared.prefixes['statuses'])) status = prefix as TStatus;
 
     // Anyway add the prefix to list
     parsedPrefixes.push(prefix);
   }
 
   // If the status is not set, then the game is in development (Ongoing)
-  status = status && category === "games" ? status : "Ongoing";
+  status = status && category === 'games' ? status : 'Ongoing';
 
   return {
     status: status,
     engine: engine,
-    prefixes: parsedPrefixes
+    prefixes: parsedPrefixes,
   };
 }
 
@@ -281,13 +281,13 @@ function extractPostData(elements: IPostElement[]) {
 
   // Helper methods
   const getTextFromElement = (metadata: string[]) =>
-    getPostElementByName(elements, metadata)?.text ?? "";
+    getPostElementByName(elements, metadata)?.text ?? '';
 
-  const parseArrayOfStrings = (metadata: string[], separator = ",") =>
+  const parseArrayOfStrings = (metadata: string[], separator = ',') =>
     getTextFromElement(metadata)
       ?.split(separator)
-      .map((s) => s.trim())
-      .filter((s) => s !== "") ?? [];
+      .map(s => s.trim())
+      .filter(s => s !== '') ?? [];
 
   // First fill the "simple" elements
   extracted.cover = (getPostElementByName(elements, md.COVER) as ILink)?.href;
@@ -327,8 +327,8 @@ function extractPostData(elements: IPostElement[]) {
 function parseAuthor(elements: IPostElement[]): TAuthor[] {
   // Local variables
   const author: TAuthor = {
-    name: "",
-    platforms: []
+    name: '',
+    platforms: [],
   };
 
   // Fetch the authors from the post data
@@ -340,12 +340,12 @@ function parseAuthor(elements: IPostElement[]): TAuthor[] {
 
     // Add the found platforms
     authorElement.content
-      .filter((e) => (e as ILink).href)
-      .forEach((e) => {
+      .filter(e => (e as ILink).href)
+      .forEach(e => {
         // Create and push the new platform
         const platform: TExternalPlatform = {
           name: e.text,
-          link: (e as ILink).href
+          link: (e as ILink).href,
         };
 
         author.platforms.push(platform);
@@ -353,17 +353,17 @@ function parseAuthor(elements: IPostElement[]): TAuthor[] {
 
     // Sometimes the author has a profile on F95Zone and
     // it will be saved under platforms, not in name.
-    const f95Profile = author.platforms.filter((p) => isF95URL(p.link)).shift();
-    if (author.name === "" && f95Profile) author.name = f95Profile.name;
+    const f95Profile = author.platforms.filter(p => isF95URL(p.link)).shift();
+    if (author.name === '' && f95Profile) author.name = f95Profile.name;
 
     // Sometimes there are multiple "support" platform but no name of the author.
     // In these case, usually, the name of the first platform is the author's name.
     /* c8 ignore next */
-    if (author.name === "" && author.platforms.length >= 1) author.name = author.platforms[0].name;
+    if (author.name === '' && author.platforms.length >= 1) author.name = author.platforms[0].name;
 
     // Clean the author name from special chars at the end
     const regex = /(?<=\w\b)[\s-/]+$/gi;
-    if (regex.test(author.name)) author.name = author.name.replace(regex, "");
+    if (regex.test(author.name)) author.name = author.name.replace(regex, '');
   }
 
   return [author];
@@ -383,14 +383,14 @@ function parseChangelog(elements: IPostElement[]): TChangelog[] {
 
     // Get the indexes of the version tags
     const indexesVersion = changelogElement.content
-      .filter((e) => e.type === "Text" && versionRegex.test(e.text))
-      .map((e) => changelogElement.content.indexOf(e));
+      .filter(e => e.type === 'Text' && versionRegex.test(e.text))
+      .map(e => changelogElement.content.indexOf(e));
 
     const results = indexesVersion.map((i, j) => {
       // In-loop variable
       const versionChangelog: TChangelog = {
-        version: "",
-        information: []
+        version: '',
+        information: [],
       };
 
       // Get the difference in indexes between this and the next version tag
@@ -399,14 +399,14 @@ function parseChangelog(elements: IPostElement[]): TChangelog[] {
       // Fetch the group of data of this version tag
       const group = changelogElement.content.slice(i, diff);
       const hasElements = group.length !== 0;
-      versionChangelog.version = hasElements ? group[0].text.replace("v", "").trim() : "";
+      versionChangelog.version = hasElements ? group[0].text.replace('v', '').trim() : '';
 
       // Parse the data
-      group.forEach((e) => {
-        if (e.type === "Empty" || e.type === "Spoiler") {
+      group.forEach(e => {
+        if (e.type === 'Empty' || e.type === 'Spoiler') {
           // This element is a collection of element so we
           // need to parse all the textes inside this element
-          const textes = e.content.map((c) => c.text);
+          const textes = e.content.map(c => c.text);
           versionChangelog.information.push(...textes);
         } else versionChangelog.information.push(e.text);
       });

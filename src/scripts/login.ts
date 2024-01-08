@@ -4,14 +4,14 @@
 // https://opensource.org/licenses/MIT
 
 // Modules from file
-import { UserNotLogged, USER_NOT_LOGGED } from "./classes/errors";
-import fetchPlatformData from "./fetch-data/fetch-platform-data";
-import { authenticate, send2faCode, updateSession } from "./network-helper";
-import shared from "./shared";
+import { UserNotLogged, USER_NOT_LOGGED } from './classes/errors';
+import fetchPlatformData from './fetch-data/fetch-platform-data';
+import { authenticate, send2faCode, updateSession } from './network-helper';
+import shared from './shared';
 
 // Classes from file
-import LoginResult from "./classes/login-result";
-import Credentials from "./classes/credentials";
+import LoginResult from './classes/login-result';
+import Credentials from './classes/credentials';
 
 //#region Public methods
 
@@ -64,7 +64,7 @@ export async function login(
     // Load platform data
     await fetchPlatformData();
 
-    shared.logger.info("User logged in through the platform");
+    shared.logger.info('User logged in through the platform');
   } else {
     shared.logger.warn(`Error during authentication: ${loginResult.message}`);
   }
@@ -112,7 +112,7 @@ async function createCredentials(username: string, password: string) {
   // Creating credentials and fetch unique platform token
   const creds = new Credentials(username, password);
 
-  shared.logger.trace("Fetching token...");
+  shared.logger.trace('Fetching token...');
   await creds.fetchToken();
 
   return creds;

@@ -4,13 +4,13 @@
 // https://opensource.org/licenses/MIT
 
 // Public modules from npm
-import { Cheerio, AnyNode, load } from "cheerio";
-import { isValidISODateString } from "iso-datestring-validator";
+import { Cheerio, AnyNode, load } from 'cheerio';
+import { isValidISODateString } from 'iso-datestring-validator';
 
 // Modules from files
-import { CONVERSATION } from "../../constants/css-selector";
-import { urls } from "../../constants/url";
-import { IConversation } from "../../interfaces";
+import { CONVERSATION } from '../../constants/css-selector';
+import { urls } from '../../constants/url';
+import { IConversation } from '../../interfaces';
 
 /**
  * Process a page containing a list of conversations
@@ -26,7 +26,7 @@ export default async function fetchPageConversations(html: string): Promise<ICon
   const bodies = $(CONVERSATION.BODIES);
 
   // Parse every element in bodies
-  return bodies.get().map((body) => parseConversationElement($(body)));
+  return bodies.get().map(body => parseConversationElement($(body)));
 }
 
 /**
@@ -39,26 +39,26 @@ function parseConversationElement(e: Cheerio<AnyNode>): IConversation {
   const conversation: IConversation = {} as IConversation;
 
   // Check if the conversation has unread messages
-  conversation.unread = e.attr("is-unread") !== undefined;
+  conversation.unread = e.attr('is-unread') !== undefined;
 
   // Find the URL of the conversation
-  const partialURL = e.find(CONVERSATION.TITLE).attr("href").trim();
+  const partialURL = e.find(CONVERSATION.TITLE).attr('href').trim();
   conversation.url = new URL(partialURL, urls.BASE).toString();
 
   conversation.title = e.find(CONVERSATION.TITLE).text().trim();
 
   // Parse numeric data
-  const sAuthorID = e.find(CONVERSATION.AUTHOR).attr("data-user-id");
+  const sAuthorID = e.find(CONVERSATION.AUTHOR).attr('data-user-id');
   conversation.authorid = parseInt(sAuthorID, 10);
 
-  const sLastResponseUserID = e.find(CONVERSATION.LAST_RESPONSE_USER).attr("data-user-id");
+  const sLastResponseUserID = e.find(CONVERSATION.LAST_RESPONSE_USER).attr('data-user-id');
   conversation.lastResponseUser = parseInt(sLastResponseUserID, 10);
 
   conversation.lastRecipients = e
     .find(CONVERSATION.LAST_RECIPIENTS)
     .get()
-    .map((recipient) => recipient.attribs["data-user-id"])
-    .map((s) => parseInt(s, 10));
+    .map(recipient => recipient.attribs['data-user-id'])
+    .map(s => parseInt(s, 10));
 
   const sReplies = e.find(CONVERSATION.REPLIES).text().trim();
   conversation.replies = parseInt(sReplies, 10);
@@ -67,11 +67,11 @@ function parseConversationElement(e: Cheerio<AnyNode>): IConversation {
   conversation.partecipants = parseInt(sPartecipants, 10);
 
   // Parse dates
-  const sCreationDate = e.find(CONVERSATION.START_DATE).attr("datetime");
+  const sCreationDate = e.find(CONVERSATION.START_DATE).attr('datetime');
   conversation.creation =
     sCreationDate && isValidISODateString(sCreationDate) ? new Date(sCreationDate) : null;
 
-  const sLastResponseDate = e.find(CONVERSATION.LAST_RESPONSE_TIME).attr("datetime");
+  const sLastResponseDate = e.find(CONVERSATION.LAST_RESPONSE_TIME).attr('datetime');
   conversation.lastResponseTime =
     sLastResponseDate && isValidISODateString(sLastResponseDate)
       ? new Date(sLastResponseDate)

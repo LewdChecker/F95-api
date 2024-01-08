@@ -4,20 +4,20 @@
 // https://opensource.org/licenses/MIT
 
 // Public modules from npm
-import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
-import { Cookie } from "tough-cookie";
+import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
+import { Cookie } from 'tough-cookie';
 
 // Modules from file
-import { ERROR_CODE, GenericAxiosError } from "./classes/errors";
-import { urls } from "./constants/url";
-import shared from "./shared";
+import { ERROR_CODE, GenericAxiosError } from './classes/errors';
+import { urls } from './constants/url';
+import shared from './shared';
 
 /**
  * Allows `agent` to bypass the DDOS Guard protection service (https://ddos-guard.net/)
  */
 export default function addDDoSSupport(agent: AxiosInstance): void {
   agent.interceptors.request.use(
-    async (config) => {
+    async config => {
       // Check if the guard was already bypassed
       const bypassed = await checkIfAlreadyBypassed(config);
       if (!bypassed) {
@@ -26,19 +26,19 @@ export default function addDDoSSupport(agent: AxiosInstance): void {
 
         // Add header and cookies used to bypass DDoS Guard
         config.headers.referer = result.referer;
-        result.cookies.map((c) => config.jar.setCookie(c, urls.BASE));
+        result.cookies.map(c => config.jar.setCookie(c, urls.BASE));
       }
 
       return config;
     },
     /* c8 ignore start */
-    (e) => {
+    e => {
       const message = `"${e.message}" occurred while trying to bypass DDoS Guard`;
       shared.logger.error(message);
       const error = new GenericAxiosError({
         id: ERROR_CODE.INTERCEPTOR_ERROR,
         message: message,
-        error: e
+        error: e,
       });
       return Promise.reject(error);
     }
@@ -66,7 +66,7 @@ async function bypass(url: string) {
 
   return {
     referer: referer.url,
-    cookies: cookies
+    cookies: cookies,
   };
 }
 
@@ -81,30 +81,30 @@ async function generateURLforReferer(url: string) {
       return [200, 403].includes(status);
     },
     headers: {
-      Accept: "text/html",
-      "Accept-Language": "en-US",
-      Connection: "keep-alive",
-      "Sec-Fetch-Dest": "document",
-      "Sec-Fetch-Mode": "navigate",
-      "Sec-Fetch-Site": "none",
-      "Sec-Fetch-User": "?1",
-      TE: "trailers",
-      DNT: "1"
-    }
+      Accept: 'text/html',
+      'Accept-Language': 'en-US',
+      Connection: 'keep-alive',
+      'Sec-Fetch-Dest': 'document',
+      'Sec-Fetch-Mode': 'navigate',
+      'Sec-Fetch-Site': 'none',
+      'Sec-Fetch-User': '?1',
+      TE: 'trailers',
+      DNT: '1',
+    },
   });
 
   // Get the response cookies from the request
-  const cookies = response.headers["set-cookie"].map((c) => Cookie.parse(c));
-  shared.logger.trace("[DDoS Guard] Parsed cookies of first request");
+  const cookies = response.headers['set-cookie'].map(c => Cookie.parse(c));
+  shared.logger.trace('[DDoS Guard] Parsed cookies of first request');
 
   // Find referer URL
-  const endSlice = url.includes("://") ? 3 : 1;
-  const domain = url.split("/").slice(0, endSlice).join("/");
+  const endSlice = url.includes('://') ? 3 : 1;
+  const domain = url.split('/').slice(0, endSlice).join('/');
   shared.logger.trace(`[DDoS Guard] Extracted domain to refer "${domain}"`);
 
   return {
     url: domain,
-    cookies: cookies
+    cookies: cookies,
   };
 }
 
@@ -114,17 +114,17 @@ async function generateURLforReferer(url: string) {
 async function getDDoSGuardID(url: string, cookies: Cookie[]) {
   // Contact the company page to get the ID requested
   const response = await axios({
-    url: "https://check.ddos-guard.net/check.js",
+    url: 'https://check.ddos-guard.net/check.js',
     headers: {
-      Accept: "*/*",
-      "Accept-Language": "en-US,en;q=0.5",
-      "Accept-Encoding": "gzip, deflate",
+      Accept: '*/*',
+      'Accept-Language': 'en-US,en;q=0.5',
+      'Accept-Encoding': 'gzip, deflate',
       Referer: url,
       Cookie: cookieString(cookies),
-      "Sec-Fetch-Dest": "script",
-      "Sec-Fetch-Mode": "no-cors",
-      "Sec-Fetch-Site": "cross-site"
-    }
+      'Sec-Fetch-Dest': 'script',
+      'Sec-Fetch-Mode': 'no-cors',
+      'Sec-Fetch-Site': 'cross-site',
+    },
   });
 
   // Gets the user ID for the search page
@@ -142,27 +142,27 @@ async function getBypassCookies(url: string, id: string, cookies: Cookie[]) {
   const response = await axios({
     url: new URL(`/.well-known/ddos-guard/id/${id}`, url).toString(),
     headers: {
-      Accept: "image/webp,*/*",
-      "Accept-Language": "en-US,en;q=0.5",
-      "Accept-Encoding": "gzip, deflate",
-      "Cache-Control": "no-cache",
+      Accept: 'image/webp,*/*',
+      'Accept-Language': 'en-US,en;q=0.5',
+      'Accept-Encoding': 'gzip, deflate',
+      'Cache-Control': 'no-cache',
       Referer: url,
       Cookie: cookieString(cookies),
-      "Sec-Fetch-Dest": "script",
-      "Sec-Fetch-Mode": "no-cors",
-      "Sec-Fetch-Site": "cross-site"
-    }
+      'Sec-Fetch-Dest': 'script',
+      'Sec-Fetch-Mode': 'no-cors',
+      'Sec-Fetch-Site': 'cross-site',
+    },
   });
 
   shared.logger.trace(`[DDoS Guard] Retrived final cookies from id request`);
-  return response.headers["set-cookie"].map((c) => Cookie.parse(c));
+  return response.headers['set-cookie'].map(c => Cookie.parse(c));
 }
 
 /**
  * COnvert an array of cookies into a string.
  */
 function cookieString(cookies: Cookie[]) {
-  return cookies.map((c) => c.cookieString()).join(" ");
+  return cookies.map(c => c.cookieString()).join(' ');
 }
 
 /**
@@ -172,7 +172,7 @@ function cookieString(cookies: Cookie[]) {
 async function checkIfAlreadyBypassed(config: AxiosRequestConfig) {
   // Constant used to determine if the agent has already
   // done at least one connection to bypass the DDoS Guard
-  const BYPASS_STRING = "DDOS_GUARD_BYPASSED";
+  const BYPASS_STRING = 'DDOS_GUARD_BYPASSED';
 
   // Check the cookies, if present
   if (!config[BYPASS_STRING]) {
@@ -180,7 +180,7 @@ async function checkIfAlreadyBypassed(config: AxiosRequestConfig) {
     const cookies = await config.jar.getCookies(urls.BASE);
 
     // Get the DDoS cookies
-    const ddgCookies = cookies.filter((c) => c.key.startsWith("__ddg"));
+    const ddgCookies = cookies.filter(c => c.key.startsWith('__ddg'));
 
     // Check if the cookies are expired
     const expired = (cookie: Cookie) => cookie.TTL() === 0;

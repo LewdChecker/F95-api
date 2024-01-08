@@ -4,16 +4,16 @@
 // https://opensource.org/licenses/MIT
 
 // Core modules
-import { promises as fs, constants } from "fs";
+import { promises as fs, constants } from 'fs';
 
 // Public modules from npm
-import { load } from "cheerio";
+import { load } from 'cheerio';
 
 // Modules from file
-import shared, { TPrefixDict } from "../shared";
-import { urls as f95url } from "../constants/url";
-import { GENERIC } from "../constants/css-selector";
-import { fetchHTML } from "../network-helper";
+import shared, { TPrefixDict } from '../shared';
+import { urls as f95url } from '../constants/url';
+import { GENERIC } from '../constants/css-selector';
+import { fetchHTML } from '../network-helper';
 
 //#region Interface definitions
 
@@ -93,16 +93,16 @@ async function readCache(path: string): Promise<boolean> {
   const existsCache = await checkFileExists(path);
 
   if (existsCache) {
-    const data = await fs.readFile(path, { encoding: "utf-8", flag: "r" });
+    const data = await fs.readFile(path, { encoding: 'utf-8', flag: 'r' });
     const json: Record<string, Record<string, string>> = JSON.parse(data);
 
     // Map objects don't natively support JSON conversion
     // so they were saved as normal object and we need to
     // re-covert them
-    shared.setPrefixPair("engines", objectToMap(json.engines));
-    shared.setPrefixPair("statuses", objectToMap(json.statuses));
-    shared.setPrefixPair("tags", objectToMap(json.tags));
-    shared.setPrefixPair("others", objectToMap(json.others));
+    shared.setPrefixPair('engines', objectToMap(json.engines));
+    shared.setPrefixPair('statuses', objectToMap(json.statuses));
+    shared.setPrefixPair('tags', objectToMap(json.tags));
+    shared.setPrefixPair('others', objectToMap(json.others));
 
     returnValue = true;
   }
@@ -117,10 +117,10 @@ async function saveCache(path: string): Promise<void> {
   // so we will convert them to normal object and than
   // stringify them
   const saveDict: Record<string, Record<string, string>> = {
-    engines: Object.fromEntries(shared.prefixes["engines"]),
-    statuses: Object.fromEntries(shared.prefixes["statuses"]),
-    tags: Object.fromEntries(shared.prefixes["tags"]),
-    others: Object.fromEntries(shared.prefixes["others"])
+    engines: Object.fromEntries(shared.prefixes['engines']),
+    statuses: Object.fromEntries(shared.prefixes['statuses']),
+    tags: Object.fromEntries(shared.prefixes['tags']),
+    others: Object.fromEntries(shared.prefixes['others']),
   };
   const json = JSON.stringify(saveDict);
   await fs.writeFile(path, json);
@@ -135,8 +135,8 @@ function parseLatestPlatformHTML(html: string): ILatestResource {
 
   // Clean the JSON string
   const unparsedText = $(GENERIC.LATEST_UPDATES_TAGS_SCRIPT).html().trim();
-  const startIndex = unparsedText.indexOf("{");
-  const endIndex = unparsedText.lastIndexOf("}");
+  const startIndex = unparsedText.indexOf('{');
+  const endIndex = unparsedText.lastIndexOf('}');
   const parsedText = unparsedText.substring(startIndex, endIndex + 1);
   return JSON.parse(parsedText);
 }
@@ -154,7 +154,7 @@ function assignLatestPlatformData(data: ILatestResource): void {
     const dict = new Map<number, string>();
 
     // Assign values
-    res.prefixes.map((e) => dict.set(e.id, e.name.replace("&#039;", "'")));
+    res.prefixes.map(e => dict.set(e.id, e.name.replace('&#039;', "'")));
 
     // Merge the dicts ("Other"/"Status" field)
     if (scrapedData.has(res.name)) {
@@ -173,10 +173,10 @@ function assignLatestPlatformData(data: ILatestResource): void {
   }
 
   // Save the values
-  shared.setPrefixPair("engines", scrapedData.get("Engine"));
-  shared.setPrefixPair("statuses", scrapedData.get("Status"));
-  shared.setPrefixPair("others", scrapedData.get("Other"));
-  shared.setPrefixPair("tags", objectToMap(data.tags));
+  shared.setPrefixPair('engines', scrapedData.get('Engine'));
+  shared.setPrefixPair('statuses', scrapedData.get('Status'));
+  shared.setPrefixPair('others', scrapedData.get('Other'));
+  shared.setPrefixPair('tags', objectToMap(data.tags));
 }
 
 /**

@@ -4,7 +4,7 @@
 // https://opensource.org/licenses/MIT
 
 // Modules from file
-import { getF95Token } from "../network-helper";
+import { getF95Token } from '../network-helper';
 
 /**
  * Represents the credentials used to access the platform.
@@ -12,7 +12,7 @@ import { getF95Token } from "../network-helper";
 export default class Credentials {
   //#region Private fields
 
-  private _token: string = "";
+  private _token: string = '';
 
   //#endregion Private fields
 

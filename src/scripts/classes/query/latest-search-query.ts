@@ -4,19 +4,19 @@
 // https://opensource.org/licenses/MIT
 
 // Public modules from npm
-import { AxiosResponse } from "axios";
+import { AxiosResponse } from 'axios';
 
 // Modules from file
-import { fetchGETResponse } from "../../network-helper";
-import { TCategory, TQueryInterface } from "../../types";
-import { GenericAxiosError } from "../errors";
-import PrefixParser from "../prefix-parser";
-import { urls } from "../../constants/url";
-import { IQuery } from "../../interfaces";
-import { Result } from "../result";
+import { urls } from '../../constants/url';
+import { IQuery } from '../../interfaces';
+import { fetchGETResponse } from '../../network-helper';
+import { TCategory, TQueryInterface } from '../../types';
+import { GenericAxiosError } from '../errors';
+import PrefixParser from '../prefix-parser';
+import { Result } from '../result';
 
 // Type definitions
-export type TLatestOrder = "date" | "likes" | "views" | "title" | "rating";
+export type TLatestOrder = 'date' | 'likes' | 'views' | 'title' | 'rating';
 type TDate = 365 | 180 | 90 | 30 | 14 | 7 | 3 | 1;
 
 /**
@@ -29,7 +29,7 @@ export default class LatestSearchQuery implements IQuery {
   private static MIN_PAGE = 1;
   #page: number = LatestSearchQuery.MIN_PAGE;
   #includedTags: string[] = [];
-  #itype: TQueryInterface = "LatestSearchQuery";
+  #itype: TQueryInterface = 'LatestSearchQuery';
 
   //#endregion Private fields
 
@@ -42,13 +42,13 @@ export default class LatestSearchQuery implements IQuery {
    * Title (or part of it) to search.
    */
   public title: string = null;
-  public category: TCategory = "games";
+  public category: TCategory = 'games';
   /**
    * Ordering type.
    *
    * Default: `date`.
    */
-  public order: TLatestOrder = "date";
+  public order: TLatestOrder = 'date';
   /**
    * Date limit in days, to be understood as "less than".
    * Use `1` to indicate "today" or `null` to indicate "anytime".
@@ -127,33 +127,33 @@ export default class LatestSearchQuery implements IQuery {
   private prepareGETurl(): URL {
     // Create the URL
     const url = new URL(urls.LATEST_PHP);
-    url.searchParams.set("cmd", "list");
-    url.searchParams.set("ignored", "hide"); // Exclude ignored threads
+    url.searchParams.set('cmd', 'list');
+    url.searchParams.set('ignored', 'hide'); // Exclude ignored threads
 
     // Set the category
-    url.searchParams.set("cat", this.category);
+    url.searchParams.set('cat', this.category);
 
     // Add tags and prefixes
     const parser = new PrefixParser();
     parser
       .prefixesToIDs(this.includedTags)
-      .map((tag) => url.searchParams.append("tags[]", tag.toString()));
+      .map(tag => url.searchParams.append('tags[]', tag.toString()));
 
     parser
       .prefixesToIDs(this.excludedTags)
-      .map((tag) => url.searchParams.append("notags[]", tag.toString()));
+      .map(tag => url.searchParams.append('notags[]', tag.toString()));
 
     parser
       .prefixesToIDs(this.includedPrefixes)
-      .map((p) => url.searchParams.append("prefixes[]", p.toString()));
+      .map(p => url.searchParams.append('prefixes[]', p.toString()));
 
     // Set the other values
-    if (this.title) url.searchParams.set("search", this.title);
-    if (this.creator) url.searchParams.set("creator", this.creator);
-    if (this.date) url.searchParams.set("date", this.date.toString());
-    url.searchParams.set("sort", this.order.toString());
-    url.searchParams.set("page", this.page.toString());
-    url.searchParams.set("rows", this.itemsPerPage.toString());
+    if (this.title) url.searchParams.set('search', this.title);
+    if (this.creator) url.searchParams.set('creator', this.creator);
+    if (this.date) url.searchParams.set('date', this.date.toString());
+    url.searchParams.set('sort', this.order.toString());
+    url.searchParams.set('page', this.page.toString());
+    url.searchParams.set('rows', this.itemsPerPage.toString());
 
     return url;
   }

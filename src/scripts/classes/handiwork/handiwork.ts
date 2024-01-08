@@ -4,11 +4,11 @@
 // https://opensource.org/licenses/MIT
 
 // Modules from files
-import { Handiwork } from "../../..";
-import { DEFAULT_DATE } from "../../constants/generic";
-import { IHandiwork } from "../../interfaces";
-import { TEngine, TStatus } from "../../types";
-import Basic from "./basic";
+import { Handiwork } from '../../..';
+import { DEFAULT_DATE } from '../../constants/generic';
+import { IHandiwork } from '../../interfaces';
+import { TEngine, TStatus } from '../../types';
+import Basic from './basic';
 
 /**
  * It represents a generic work, be it a game, a comic, an animation or an asset.
@@ -18,21 +18,21 @@ export default class HandiWork extends Basic implements IHandiwork {
   censored: boolean = false;
   engine: TEngine = "Ren'Py";
   genre: string[] = [];
-  installation: string = "";
+  installation: string = '';
   language: string[] = [];
   lastRelease: Date = DEFAULT_DATE;
   os: string[] = [];
-  status: TStatus = "Ongoing";
-  version: string = "";
-  pages: string = "";
+  status: TStatus = 'Ongoing';
+  version: string = '';
+  pages: string = '';
   resolution: string[] = [];
-  length: string = "";
-  assetLink: string = "";
+  length: string = '';
+  assetLink: string = '';
   associatedAssets: string[] = [];
-  compatibleSoftware: string = "";
+  compatibleSoftware: string = '';
   includedAssets: string[] = [];
   officialLinks: string[] = [];
-  sku: string = "";
+  sku: string = '';
   //#endregion Properties
 
   public constructor(init?: Partial<Handiwork>) {

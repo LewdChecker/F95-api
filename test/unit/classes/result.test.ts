@@ -3,12 +3,12 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
-import { expect } from "chai";
-import { Success, Failure } from "../../../src/scripts/classes/result";
+import { expect } from 'chai';
+import { Success, Failure } from '../../../src/scripts/classes/result';
 
 export function suite(): void {
-  describe("Test class Failure", () => {
-    it("Failure - isFailure", () => {
+  describe('Test class Failure', () => {
+    it('Failure - isFailure', () => {
       // Arguments
       const value = undefined;
 
@@ -20,7 +20,7 @@ export function suite(): void {
       expect(result).to.be.true;
     });
 
-    it("Failure - isSuccess", () => {
+    it('Failure - isSuccess', () => {
       // Arguments
       const value = undefined;
 
@@ -32,7 +32,7 @@ export function suite(): void {
       expect(result).to.be.false;
     });
 
-    it("Failure - applyOnSuccess", () => {
+    it('Failure - applyOnSuccess', () => {
       // Arguments
       const value = undefined;
       const args = undefined;
@@ -44,13 +44,13 @@ export function suite(): void {
       // Expect result
       expect(result).to.be.equal(
         failure,
-        "In case of failure the function should returns the instance of the class"
+        'In case of failure the function should returns the instance of the class'
       );
     });
   });
 
-  describe("Test class Success", () => {
-    it("Success - isFailure", () => {
+  describe('Test class Success', () => {
+    it('Success - isFailure', () => {
       // Arguments
       const value = undefined;
 
@@ -62,7 +62,7 @@ export function suite(): void {
       expect(result).to.be.false;
     });
 
-    it("Success - isSuccess", () => {
+    it('Success - isSuccess', () => {
       // Arguments
       const value = undefined;
 
@@ -74,9 +74,9 @@ export function suite(): void {
       expect(result).to.be.true;
     });
 
-    it("Success - applyOnSuccess", () => {
+    it('Success - applyOnSuccess', () => {
       // Arguments
-      const RESULT = "Success";
+      const RESULT = 'Success';
       const value = undefined;
       const func = () => RESULT;
 

@@ -9,7 +9,7 @@
  */
 export function getDateFromString(
   s: string,
-  order: "crescent" | "decrescent" = "decrescent"
+  order: 'crescent' | 'decrescent' = 'decrescent'
 ): Date | undefined {
   // Use regex to find the date (if any)
   const regex = /\d{4}[/-](0?[1-9]|1[012])[/-](3[01]|[12][0-9]|0?[1-9])/gim;
@@ -19,8 +19,8 @@ export function getDateFromString(
   // Sort the array of date using "order"
   const orderCrescent = (a: Date, b: Date) => a.getTime() - b.getTime();
   const orderDecrescent = (a: Date, b: Date) => b.getTime() - a.getTime();
-  const array = match.map((s) => new Date(s));
-  order === "decrescent" ? array.sort(orderDecrescent) : array.sort(orderCrescent);
+  const array = match.map(s => new Date(s));
+  order === 'decrescent' ? array.sort(orderDecrescent) : array.sort(orderCrescent);
 
   // Return the first
   return array.shift();

@@ -4,13 +4,13 @@
 // https://opensource.org/licenses/MIT
 
 // Public modules from npm
-import { CheerioAPI, Cheerio, AnyNode } from "cheerio";
+import { CheerioAPI, Cheerio, AnyNode } from 'cheerio';
 
 // Modules from file
-import { POST } from "../../constants/css-selector";
-import { ILink, IPostElement } from "../../interfaces";
-import { nodeType } from "./node-type";
-import { cleanTextFromInvisibleCharacters, createEmptyElement } from "./node-utility";
+import { POST } from '../../constants/css-selector';
+import { ILink, IPostElement } from '../../interfaces';
+import { nodeType } from './node-type';
+import { cleanTextFromInvisibleCharacters, createEmptyElement } from './node-utility';
 
 /**
  * Given a Cheerio node, it extracts the information into an IPostElement structure.
@@ -20,7 +20,7 @@ export default function parseCheerioNode($: CheerioAPI, node: AnyNode): IPostEle
   const functionMap: Record<string, (node: Cheerio<AnyNode>) => IPostElement> = {
     Text: (node: Cheerio<AnyNode>) => parseCheerioTextNode(node),
     Spoiler: (node: Cheerio<AnyNode>) => parseCheerioSpoilerNode(node),
-    Link: (node: Cheerio<AnyNode>) => parseCheerioLinkNode(node)
+    Link: (node: Cheerio<AnyNode>) => parseCheerioLinkNode(node),
   };
 
   // Get the type of node
@@ -50,15 +50,15 @@ function parseCheerioSpoilerNode(node: Cheerio<AnyNode>): IPostElement {
 
   // Local variables
   const spoiler: IPostElement = {
-    type: "Spoiler",
-    name: "",
-    text: "",
-    content: []
+    type: 'Spoiler',
+    name: '',
+    text: '',
+    content: [],
   };
 
   // Find the title of the spoiler (contained in the button)
   const name = node.find(POST.SPOILER_NAME)?.first();
-  spoiler.name = name ? name.text().trim() /* c8 ignore next */ : "";
+  spoiler.name = name ? name.text().trim() /* c8 ignore next */ : '';
 
   return spoiler;
 }
@@ -69,21 +69,21 @@ function parseCheerioSpoilerNode(node: Cheerio<AnyNode>): IPostElement {
 function parseCheerioLinkNode(element: Cheerio<AnyNode>): ILink {
   // Local variable
   const link: ILink = {
-    type: "Link",
-    name: "",
-    text: "",
-    href: "",
-    content: []
+    type: 'Link',
+    name: '',
+    text: '',
+    href: '',
+    content: [],
   };
 
-  if (element.is("img")) {
-    link.type = "Image";
-    link.text = element.attr("alt") ?? "";
-    link.href = element.attr("data-src") as string;
-  } else if (element.is("a")) {
-    link.type = "Link";
-    link.text = element.text().replace(/\s\s+/g, " ").trim();
-    link.href = element.attr("href") as string;
+  if (element.is('img')) {
+    link.type = 'Image';
+    link.text = element.attr('alt') ?? '';
+    link.href = element.attr('data-src') as string;
+  } else if (element.is('a')) {
+    link.type = 'Link';
+    link.text = element.text().replace(/\s\s+/g, ' ').trim();
+    link.href = element.attr('href') as string;
   }
 
   return link;
@@ -94,10 +94,10 @@ function parseCheerioLinkNode(element: Cheerio<AnyNode>): ILink {
  */
 function parseCheerioTextNode(node: Cheerio<AnyNode>): IPostElement {
   const content: IPostElement = {
-    type: "Text",
-    name: "",
+    type: 'Text',
+    name: '',
     text: getCheerioNonChildrenText(node),
-    content: []
+    content: [],
   };
   return content;
 }
@@ -111,5 +111,5 @@ function getCheerioNonChildrenText(node: Cheerio<AnyNode>): string {
   const text = node.first().text();
 
   // Clean and return the text
-  return text.replace(/\s\s+/g, " ").trim();
+  return text.replace(/\s\s+/g, ' ').trim();
 }

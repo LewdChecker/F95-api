@@ -13,8 +13,8 @@ import {
   TStatus,
   TQueryInterface,
   TAlertType,
-  TAlertReactionType
-} from "./types";
+  TAlertReactionType,
+} from './types';
 
 /**
  * Collection of values defined for each
@@ -382,7 +382,7 @@ export interface IPostElement {
   /**
    * Type of element.
    */
-  type: "Root" | "Empty" | "Text" | "Link" | "Image" | "Spoiler";
+  type: 'Root' | 'Empty' | 'Text' | 'Link' | 'Image' | 'Spoiler';
   /**
    * Name associated with the element.
    */
@@ -401,7 +401,7 @@ export interface IPostElement {
  * Represents a link type link in the post.
  */
 export interface ILink extends IPostElement {
-  type: "Image" | "Link";
+  type: 'Image' | 'Link';
   /**
    * Link to the resource.
    */

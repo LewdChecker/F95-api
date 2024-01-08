@@ -14,9 +14,9 @@ F95_PASSWORD = YOUR_PASSWORD
 */
 
 // Public modules from npm
-import inquirer from "inquirer";
-import dotenv from "dotenv";
-import { CaptchaHarvest } from "@millenniumearl/recaptcha-harvester";
+import inquirer from 'inquirer';
+import dotenv from 'dotenv';
+import { CaptchaHarvest } from '@millenniumearl/recaptcha-harvester';
 
 // Modules from file
 import {
@@ -29,8 +29,8 @@ import {
   HandiworkSearchQuery,
   logout,
   loggerLevel,
-  setLoggerLevel
-} from "./index";
+  setLoggerLevel,
+} from './index';
 
 // Configure the .env reader
 dotenv.config();
@@ -42,10 +42,10 @@ dotenv.config();
 async function insert2faCode(): Promise<number> {
   const questions = [
     {
-      type: "input",
-      name: "code",
-      message: "Insert 2FA code:"
-    }
+      type: 'input',
+      name: 'code',
+      message: 'Insert 2FA code:',
+    },
   ];
 
   // Prompt the user to insert the code
@@ -55,18 +55,18 @@ async function insert2faCode(): Promise<number> {
 
 async function retrieveCaptchaToken(): Promise<string> {
   // Local variables
-  const website = "https://f95zone.to";
-  const sitekey = "6LcwQ5kUAAAAAAI-_CXQtlnhdMjmFDt-MruZ2gov";
+  const website = 'https://f95zone.to';
+  const sitekey = '6LcwQ5kUAAAAAAI-_CXQtlnhdMjmFDt-MruZ2gov';
 
   // Start the harvester
-  console.log("CAPTCHA token required...");
+  console.log('CAPTCHA token required...');
   const harvester = new CaptchaHarvest();
-  await harvester.start("reCAPTCHAv2");
+  await harvester.start('reCAPTCHAv2');
 
   // Fetch token
   try {
     const token = await harvester.getCaptchaToken(website, sitekey);
-    console.log("CAPTCHA token retrived successfully");
+    console.log('CAPTCHA token retrived successfully');
     return token.token;
   } catch (e) {
     console.log(`Error while retrieving CAPTCHA token:\n${e}`);
@@ -82,7 +82,7 @@ async function retrieveCaptchaToken(): Promise<string> {
  */
 async function authenticate(): Promise<boolean> {
   // Log in the platform
-  console.log("Authenticating...");
+  console.log('Authenticating...');
   const result = await login(
     process.env.F95_USERNAME as string,
     process.env.F95_PASSWORD as string,
@@ -98,7 +98,7 @@ async function authenticate(): Promise<boolean> {
  * Fetch and show data of the current logger user.
  */
 async function fetchUserData(): Promise<void> {
-  console.log("Fetching user data...");
+  console.log('Fetching user data...');
 
   // Fetch basic data + all the "extended" data of this logged user
   const userdata = new UserProfile();
@@ -112,10 +112,10 @@ async function fetchUserData(): Promise<void> {
   const conversations = await userdata.conversations;
 
   // Do some queries on the properties
-  const gameThreads = watchedThreads.filter((e) => e.forum === "Games");
-  const unreadGameThreads = gameThreads.filter((e) => e.unread).length;
-  const unreadAlerts = alerts.filter((i) => !i.read).length;
-  const unreadConversations = conversations.filter((i) => i.unread).length;
+  const gameThreads = watchedThreads.filter(e => e.forum === 'Games');
+  const unreadGameThreads = gameThreads.filter(e => e.unread).length;
+  const unreadAlerts = alerts.filter(i => !i.read).length;
+  const unreadConversations = conversations.filter(i => i.unread).length;
 
   console.log(`User: ${userdata.name}\n`);
   console.log(`Threads followed: ${watchedThreads.length}`);
@@ -131,8 +131,8 @@ async function fetchUserData(): Promise<void> {
  */
 async function fetchLatestGameInfo(): Promise<void> {
   const latestQuery: LatestSearchQuery = new LatestSearchQuery();
-  latestQuery.category = "games";
-  latestQuery.includedTags = ["3d game"];
+  latestQuery.category = 'games';
+  latestQuery.includedTags = ['3d game'];
 
   const latestUpdates = await getLatestUpdates<Game>(latestQuery, Game, 1);
 
@@ -141,7 +141,7 @@ async function fetchLatestGameInfo(): Promise<void> {
     const tags = latestQuery.includedTags.join();
 
     console.log(`"${gamename}" was the last "${tags}" tagged game to be updated\n`);
-  } else console.log("No game found with the specified tags");
+  } else console.log('No game found with the specified tags');
 }
 
 /**
@@ -153,9 +153,9 @@ async function fetchGameData(games: string[]): Promise<void> {
 
     // Prepare the query
     const query: HandiworkSearchQuery = new HandiworkSearchQuery();
-    query.category = "games";
+    query.category = 'games';
     query.keywords = gamename;
-    query.order = "likes"; // Find the most popular games
+    query.order = 'likes'; // Find the most popular games
 
     // Fetch the first result
     const searchResult = await searchHandiwork<Game>(query, Game, 1);
@@ -163,7 +163,7 @@ async function fetchGameData(games: string[]): Promise<void> {
     if (searchResult.length !== 0) {
       // Extract first game
       const gamedata = searchResult[0];
-      const authors = gamedata.authors.map((a) => a.name).join(", ");
+      const authors = gamedata.authors.map(a => a.name).join(', ');
       console.log(`Found: ${gamedata.name} (${gamedata.version}) by ${authors}\n`);
     } else console.log(`No data found for '${gamename}'\n`);
   }
@@ -171,7 +171,7 @@ async function fetchGameData(games: string[]): Promise<void> {
 
 async function main() {
   // Use log4js for info
-  setLoggerLevel("trace");
+  setLoggerLevel('trace');
   console.log(`Log level: ${loggerLevel()}`);
 
   if (await authenticate()) {
@@ -182,11 +182,11 @@ async function main() {
     await fetchLatestGameInfo();
 
     // Get game data
-    const gameList = ["City of broken dreamers", "Seeds of chaos", "MIST"];
+    const gameList = ['City of broken dreamers', 'Seeds of chaos', 'MIST'];
     await fetchGameData(gameList);
 
     await logout();
-  } else console.log("Failed authentication, impossible to continue");
+  } else console.log('Failed authentication, impossible to continue');
 }
 
 main();

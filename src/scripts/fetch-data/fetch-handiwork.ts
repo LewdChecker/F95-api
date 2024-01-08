@@ -4,11 +4,11 @@
 // https://opensource.org/licenses/MIT
 
 // Modules from file
-import HandiworkSearchQuery from "../classes/query/handiwork-search-query";
-import LatestSearchQuery from "../classes/query/latest-search-query";
-import ThreadSearchQuery from "../classes/query/thread-search-query";
-import fetchLatestHandiworkURLs from "./fetch-latest";
-import fetchThreadHandiworkURLs from "./fetch-thread";
+import HandiworkSearchQuery from '../classes/query/handiwork-search-query';
+import LatestSearchQuery from '../classes/query/latest-search-query';
+import ThreadSearchQuery from '../classes/query/thread-search-query';
+import fetchLatestHandiworkURLs from './fetch-latest';
+import fetchThreadHandiworkURLs from './fetch-thread';
 
 /**
  * Gets the URLs of the handiworks that match the passed parameters.
@@ -28,15 +28,15 @@ export default async function fetchHandiworkURLs(
   const searchType = query.selectSearchType();
 
   // Convert the query
-  if (searchType === "latest") {
+  if (searchType === 'latest') {
     // Cast the query
-    const castedQuery = query.cast<LatestSearchQuery>("LatestSearchQuery");
+    const castedQuery = query.cast<LatestSearchQuery>('LatestSearchQuery');
 
     // Fetch the urls
     urls = await fetchLatestHandiworkURLs(castedQuery, limit);
   } else {
     // Cast the query
-    const castedQuery = query.cast<ThreadSearchQuery>("ThreadSearchQuery");
+    const castedQuery = query.cast<ThreadSearchQuery>('ThreadSearchQuery');
 
     // Fetch the urls
     urls = await fetchThreadHandiworkURLs(castedQuery, limit);

@@ -4,13 +4,13 @@
 // https://opensource.org/licenses/MIT
 
 // Public module from npm
-import { expect } from "chai";
+import { expect } from 'chai';
 
 // Modules from file
-import Credentials from "../../../src/scripts/classes/credentials";
+import Credentials from '../../../src/scripts/classes/credentials';
 
 export function suite(): void {
-  it("Check token formatting", async function testValidToken() {
+  it('Check token formatting', async function testValidToken() {
     // Token example:
     // 1604309951,0338213c00fcbd894fd9415e6ba08403
     // 1604309986,ebdb75502337699381f0f55c86353555
@@ -21,17 +21,17 @@ export function suite(): void {
     await cred.fetchToken();
 
     // Parse token for assert
-    const splitted = cred.token.split(",");
+    const splitted = cred.token.split(',');
     const unique = splitted[0];
     const hash = splitted[1];
-    expect(splitted.length).to.be.equal(2, "The token consists of two parts");
+    expect(splitted.length).to.be.equal(2, 'The token consists of two parts');
 
     // Check type of parts
     expect(isNumeric(unique)).to.be.true;
     expect(isNumeric(hash)).to.be.false;
 
     // The second part is most probably the MD5 hash of something
-    expect(hash.length).to.be.equal(32, "Hash should have 32 hex chars");
+    expect(hash.length).to.be.equal(32, 'Hash should have 32 hex chars');
   });
 }
 
@@ -44,8 +44,8 @@ export function suite(): void {
  */
 function isNumeric(num: any): boolean {
   const isNan = Number.isNaN(num);
-  const isNum = typeof num === "number";
-  const isValidString = typeof num === "string" && num.trim() !== "";
+  const isNum = typeof num === 'number';
+  const isValidString = typeof num === 'string' && num.trim() !== '';
   const isParsedNumber = isValidString ? !Number.isNaN(Number(num)) : false;
 
   return (isNum || isParsedNumber) && !isNan;

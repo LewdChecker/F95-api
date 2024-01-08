@@ -4,34 +4,34 @@
 // https://opensource.org/licenses/MIT
 
 // Public modules from npm
-import { isValidISODateString } from "iso-datestring-validator";
-import { Cheerio, AnyNode, load } from "cheerio";
+import { isValidISODateString } from 'iso-datestring-validator';
+import { Cheerio, AnyNode, load } from 'cheerio';
 
 // Modules from files
-import PlatformUser from "./platform-user";
-import { urls } from "../../constants/url";
+import PlatformUser from './platform-user';
+import { urls } from '../../constants/url';
 import {
   ALERT,
   BOOKMARKED_POST,
   CONVERSATION,
   GENERIC,
-  WATCHED_THREAD
-} from "../../constants/css-selector";
-import { fetchHTML } from "../../network-helper";
+  WATCHED_THREAD,
+} from '../../constants/css-selector';
+import { fetchHTML } from '../../network-helper';
 import {
   InvalidID,
   MissingOrInvalidParsingAttribute,
   UserNotLogged,
-  USER_NOT_LOGGED
-} from "../errors";
-import shared from "../../shared";
-import Game from "../handiwork/game";
-import { IAlert, IBookmarkedPost, IConversation, IWatchedThread } from "../../interfaces";
-import fetchAlertElements from "../../fetch-data/user-data/fetch-alert";
-import Thread from "./thread";
-import { getHandiworkFromURL } from "../../handiwork-from-url";
-import fetchPageConversations from "../../fetch-data/user-data/fetch-conversation";
-import { DEFAULT_DATE } from "../../constants/generic";
+  USER_NOT_LOGGED,
+} from '../errors';
+import shared from '../../shared';
+import Game from '../handiwork/game';
+import { IAlert, IBookmarkedPost, IConversation, IWatchedThread } from '../../interfaces';
+import fetchAlertElements from '../../fetch-data/user-data/fetch-alert';
+import Thread from './thread';
+import { getHandiworkFromURL } from '../../handiwork-from-url';
+import fetchPageConversations from '../../fetch-data/user-data/fetch-conversation';
+import { DEFAULT_DATE } from '../../constants/generic';
 
 interface IFetchOptions<T> {
   /**
@@ -101,22 +101,22 @@ export default class UserProfile extends PlatformUser {
 
   async watchedThreadsGetWrapper(): Promise<IWatchedThread[]> {
     // Checks if basic data has already been retrieved
-    if (!this.id) throw new InvalidID("First you need to call the fetch() method");
+    if (!this.id) throw new InvalidID('First you need to call the fetch() method');
 
     // Cache data
     if (!this._watched) {
-      shared.logger.trace("Fetching watched threads...");
+      shared.logger.trace('Fetching watched threads...');
 
       // Prepare the url of the threads followed by
       // extending the selection to the threads already read
       const url = new URL(urls.WATCHED_THREADS);
-      url.searchParams.set("unread", "0");
+      url.searchParams.set('unread', '0');
 
       // Prepare the options to use for fetching the data
       const options: IFetchOptions<IWatchedThread> = {
         url: url.toString(),
         selector: WATCHED_THREAD.LAST_PAGE,
-        parseFunction: this.fetchPageThreadElements
+        parseFunction: this.fetchPageThreadElements,
       };
 
       // Fetch data
@@ -127,17 +127,17 @@ export default class UserProfile extends PlatformUser {
 
   async bookmarksGetWrapper(): Promise<IBookmarkedPost[]> {
     // Checks if basic data has already been retrieved
-    if (!this.id) throw new InvalidID("First you need to call the fetch() method");
+    if (!this.id) throw new InvalidID('First you need to call the fetch() method');
 
     // Cache data
     if (!this._bookmarks) {
-      shared.logger.trace("Fetching bookmarks...");
+      shared.logger.trace('Fetching bookmarks...');
 
       // Prepare the options to use for fetching the data
       const options: IFetchOptions<IBookmarkedPost> = {
         url: urls.BOOKMARKS,
         selector: BOOKMARKED_POST.LAST_PAGE,
-        parseFunction: this.fetchBookmarkElements
+        parseFunction: this.fetchBookmarkElements,
       };
 
       // Fetch data
@@ -148,17 +148,17 @@ export default class UserProfile extends PlatformUser {
 
   async alertsGetWrapper(): Promise<IAlert[]> {
     // Checks if basic data has already been retrieved
-    if (!this.id) throw new InvalidID("First you need to call the fetch() method");
+    if (!this.id) throw new InvalidID('First you need to call the fetch() method');
 
     // Cache data
     if (!this._alerts) {
-      shared.logger.trace("Fetching alerts...");
+      shared.logger.trace('Fetching alerts...');
 
       // Prepare the options to use for fetching the data
       const options: IFetchOptions<IAlert> = {
         url: urls.ALERTS,
         selector: ALERT.LAST_PAGE,
-        parseFunction: fetchAlertElements
+        parseFunction: fetchAlertElements,
       };
 
       // Fetch data
@@ -169,11 +169,11 @@ export default class UserProfile extends PlatformUser {
 
   async featuredGamesGetWrapper(): Promise<Game[]> {
     // Checks if basic data has already been retrieved
-    if (!this.id) throw new InvalidID("First you need to call the fetch() method");
+    if (!this.id) throw new InvalidID('First you need to call the fetch() method');
 
     // Cache data
     if (!this._featuredGames) {
-      shared.logger.trace("Fetching featured games...");
+      shared.logger.trace('Fetching featured games...');
       this._featuredGames = await this.fetchFeaturedGames();
     }
     return Promise.resolve(this._featuredGames);
@@ -181,17 +181,17 @@ export default class UserProfile extends PlatformUser {
 
   async conversationsGetWrapper(): Promise<IConversation[]> {
     // Checks if basic data has already been retrieved
-    if (!this.id) throw new InvalidID("First you need to call the fetch() method");
+    if (!this.id) throw new InvalidID('First you need to call the fetch() method');
 
     // Cache data
     if (!this._conversations) {
-      shared.logger.trace("Fetching conversations...");
+      shared.logger.trace('Fetching conversations...');
 
       // Prepare the options to use for fetching the data
       const options: IFetchOptions<IConversation> = {
         url: urls.CONVERSATIONS,
         selector: CONVERSATION.LAST_PAGE,
-        parseFunction: fetchPageConversations
+        parseFunction: fetchPageConversations,
       };
 
       // Fetch data
@@ -226,31 +226,31 @@ export default class UserProfile extends PlatformUser {
     shared.logger.info(`Got user's ID: ${id}`);
 
     // Than fetch the basic data
-    shared.logger.info("Fetching user information...");
+    shared.logger.info('Fetching user information...');
     await temp.fetch();
 
     // Copy the property of the superior class (PlatformUser) to this instance
     const superprops = Object.getOwnPropertyNames(temp);
     superprops
-      .filter((p) => !p.includes("__proto__"))
+      .filter(p => !p.includes('__proto__'))
       // file deepcode ignore PrototypePollution: I already ignored __proto__ strings
-      .map((p) => (this[p] = temp[p]));
+      .map(p => (this[p] = temp[p]));
 
     // Fetch all the "extra" data of this user
     if (extended) {
-      shared.logger.info("Fetching extended information...");
+      shared.logger.info('Fetching extended information...');
       const promises = [
         this.watchedThreadsGetWrapper(),
         this.bookmarksGetWrapper(),
         this.alertsGetWrapper(),
         this.featuredGamesGetWrapper(),
-        this.conversationsGetWrapper()
+        this.conversationsGetWrapper(),
       ];
 
       // Await all the promises. We can use `any`
       // because the values are saved inside the functions.
       await Promise.all<any>(promises);
-      shared.logger.trace("Extended information fetched");
+      shared.logger.trace('Extended information fetched');
     }
   }
 
@@ -267,11 +267,11 @@ export default class UserProfile extends PlatformUser {
 
     // Fetch and parse page
     const response = await fetchHTML(url);
-    const result = response.applyOnSuccess((html) => {
+    const result = response.applyOnSuccess(html => {
       // Load page with cheerio
       const $ = load(html);
 
-      const sid = $(GENERIC.CURRENT_USER_ID).attr("data-user-id");
+      const sid = $(GENERIC.CURRENT_USER_ID).attr('data-user-id');
       if (!sid) throw new MissingOrInvalidParsingAttribute("Cannot extract user's ID");
       return parseInt(sid.trim(), 10);
     });
@@ -331,7 +331,7 @@ export default class UserProfile extends PlatformUser {
     // Fetch the page' HTML in sequence
     for (let page = s; page <= n; page++) {
       // Set the page URL
-      u.searchParams.set("page", page.toString());
+      u.searchParams.set('page', page.toString());
 
       // Fetch HTML but not wait for it
       const promise = fetchHTML(u.toString());
@@ -357,14 +357,14 @@ export default class UserProfile extends PlatformUser {
 
     function parseElement(el: AnyNode) {
       // Parse the URL
-      const partialURL = findAttribute($(el), WATCHED_THREAD.URL, "href");
+      const partialURL = findAttribute($(el), WATCHED_THREAD.URL, 'href');
 
-      const url = new URL(partialURL.replace("unread", ""), urls.BASE).toString();
+      const url = new URL(partialURL.replace('unread', ''), urls.BASE).toString();
 
       return {
         url: url.toString(),
-        unread: partialURL.endsWith("unread"),
-        forum: $(el).find(WATCHED_THREAD.FORUM).text().trim()
+        unread: partialURL.endsWith('unread'),
+        forum: $(el).find(WATCHED_THREAD.FORUM).text().trim(),
       } as IWatchedThread;
     }
 
@@ -382,7 +382,7 @@ export default class UserProfile extends PlatformUser {
 
     async function parseElement(el: AnyNode) {
       // Parse the URL
-      const url = findAttribute($(el), BOOKMARKED_POST.URL, "href");
+      const url = findAttribute($(el), BOOKMARKED_POST.URL, 'href');
 
       // Check if the URL contains a post ID and get it,
       // otherwise it represents the first post of a
@@ -391,7 +391,7 @@ export default class UserProfile extends PlatformUser {
       const match = url.match(regex);
       let foundID = null;
       if (match) {
-        const sid = match[0].replace("posts/", "");
+        const sid = match[0].replace('posts/', '');
         foundID = parseInt(sid, 10);
       } else {
         const post = await new Thread(new URL(url)).getPost(1);
@@ -399,10 +399,10 @@ export default class UserProfile extends PlatformUser {
       }
 
       // Find the savedate
-      const sDate = findAttribute($(el), BOOKMARKED_POST.BOOKMARK_TIME, "datetime");
+      const sDate = findAttribute($(el), BOOKMARKED_POST.BOOKMARK_TIME, 'datetime');
 
       // Find the owner ID
-      const sOwnerID = findAttribute($(el), BOOKMARKED_POST.OWNER_ID, "data-user-id");
+      const sOwnerID = findAttribute($(el), BOOKMARKED_POST.OWNER_ID, 'data-user-id');
 
       return {
         id: foundID,
@@ -412,7 +412,7 @@ export default class UserProfile extends PlatformUser {
         labels: $(el)
           .find(BOOKMARKED_POST.LABELS)
           .map((_, label) => $(label).text())
-          .toArray()
+          .toArray(),
       } as IBookmarkedPost;
     }
 
@@ -444,14 +444,14 @@ export default class UserProfile extends PlatformUser {
 
       // Extract the URL from the attribute
       const partialURLs = slider
-        .map((el) => $(el).attr("href")?.trim())
-        .filter((url) => url !== undefined);
+        .map(el => $(el).attr('href')?.trim())
+        .filter(url => url !== undefined);
 
       // Prepare the unique URLs
-      const gameURLs = [...new Set(partialURLs)].map((pu) => new URL(pu, urls.BASE).toString());
+      const gameURLs = [...new Set(partialURLs)].map(pu => new URL(pu, urls.BASE).toString());
 
       // fetch the games
-      const promises = gameURLs.map((url) => {
+      const promises = gameURLs.map(url => {
         return getHandiworkFromURL<Game>(url, Game);
       });
 
@@ -472,9 +472,9 @@ function findAttribute(
   selector: string,
   attribute: string,
   raise: boolean = true
-): string | "" {
+): string | '' {
   // Extract the attribute
-  const extracted = e.find(selector).attr(attribute) ?? "";
+  const extracted = e.find(selector).attr(attribute) ?? '';
 
   // Check if the attribute is undefined
   if (!extracted && raise) {

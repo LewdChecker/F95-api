@@ -4,15 +4,15 @@
 // https://opensource.org/licenses/MIT
 
 // Public modules from npm
-import { load } from "cheerio";
+import { load } from 'cheerio';
 
 // Modules from files
-import Post from "./post";
-import PlatformUser from "./platform-user";
-import { ILazy } from "../../interfaces";
-import { urls } from "../../constants/url";
-import { POST, THREAD } from "../../constants/css-selector";
-import { fetchHTML, fetchPOSTResponse, getUrlRedirect } from "../../network-helper";
+import Post from './post';
+import PlatformUser from './platform-user';
+import { ILazy } from '../../interfaces';
+import { urls } from '../../constants/url';
+import { POST, THREAD } from '../../constants/css-selector';
+import { fetchHTML, fetchPOSTResponse, getUrlRedirect } from '../../network-helper';
 import {
   InvalidID,
   InvalidResponseParsing,
@@ -20,13 +20,13 @@ import {
   INVALID_THREAD_ID,
   ParameterError,
   UserNotLogged,
-  USER_NOT_LOGGED
-} from "../errors";
-import { getJSONLD, TJsonLD } from "../../scrape-data/json-ld";
-import shared from "../../shared";
-import { DEFAULT_DATE } from "../../constants/generic";
-import { getDateFromString } from "../../utils";
-import { TRating, TCategory } from "../../types";
+  USER_NOT_LOGGED,
+} from '../errors';
+import { getJSONLD, TJsonLD } from '../../scrape-data/json-ld';
+import shared from '../../shared';
+import { DEFAULT_DATE } from '../../constants/generic';
+import { getDateFromString } from '../../utils';
+import { TRating, TCategory } from '../../types';
 
 type TPostsForPage = 20 | 40 | 60 | 100;
 
@@ -38,8 +38,8 @@ export default class Thread implements ILazy {
 
   private POST_FOR_PAGE: TPostsForPage = 20;
   private _id: number;
-  private _url: string = "";
-  private _title: string = "";
+  private _url: string = '';
+  private _title: string = '';
   private _tags: string[] = [];
   private _prefixes: string[] = [];
   private _rating: TRating = undefined as any;
@@ -47,7 +47,7 @@ export default class Thread implements ILazy {
   private _publication: Date = DEFAULT_DATE;
   private _modified: Date = DEFAULT_DATE;
   private _category: TCategory = undefined as any;
-  private _headline: string = "";
+  private _headline: string = '';
 
   //#endregion Fields
 
@@ -65,7 +65,7 @@ export default class Thread implements ILazy {
    * It may vary depending on any versions of the contained product.
    */
   public get url(): string {
-    return this._url !== "" ? this._url : new URL(`${this.id}/`, urls.THREADS).toString();
+    return this._url !== '' ? this._url : new URL(`${this.id}/`, urls.THREADS).toString();
   }
   /**
    * Thread title.
@@ -144,7 +144,7 @@ export default class Thread implements ILazy {
     if (!args) throw new ParameterError(INVALID_THREAD_CONSTRUCTOR_ARGUMENT);
 
     // Assign ID
-    this._id = typeof args === "number" ? args : this.getIDFromURL(args);
+    this._id = typeof args === 'number' ? args : this.getIDFromURL(args);
 
     // Check ID
     if (!this.id || this.id < 1) throw new InvalidID(INVALID_THREAD_ID);
@@ -158,13 +158,13 @@ export default class Thread implements ILazy {
   private async setMaximumPostsForPage(n: TPostsForPage): Promise<void> {
     // Prepare the parameters to send via POST request
     const params = {
-      _xfResponseType: "json",
+      _xfResponseType: 'json',
       _xfRequestUri: `/account/dpp-update?content_type=thread&content_id=${this.id}`,
       _xfToken: shared.session.token,
-      _xfWithData: "1",
+      _xfWithData: '1',
       content_id: this.id.toString(),
-      content_type: "thread",
-      "dpp_custom_config[posts]": n.toString()
+      content_type: 'thread',
+      'dpp_custom_config[posts]': n.toString(),
     };
 
     // Send POST request
@@ -182,10 +182,10 @@ export default class Thread implements ILazy {
     // Start parsing the posts
     const posts = $(THREAD.POSTS_IN_PAGE)
       .toArray()
-      .map((el) => {
+      .map(el => {
         // Force Typescript to accept "string" type instead of "undefined"
-        const element = $(el).find(POST.ID).attr("id") as string;
-        const id = parseInt(element.replace("post-", ""), 10);
+        const element = $(el).find(POST.ID).attr('id') as string;
+        const id = parseInt(element.replace('post-', ''), 10);
         return new Post(id);
       });
 
@@ -201,11 +201,11 @@ export default class Thread implements ILazy {
    * starting from the data contained in the JSON+LD tag.
    */
   private parseRating(data: TJsonLD): TRating {
-    const ratingTree = data["aggregateRating"] as TJsonLD;
+    const ratingTree = data['aggregateRating'] as TJsonLD;
     const rating: TRating = {
-      average: ratingTree ? parseFloat(ratingTree["ratingValue"] as string) : 0,
-      best: ratingTree ? parseInt(ratingTree["bestRating"] as string, 10) : 0,
-      count: ratingTree ? parseInt(ratingTree["ratingCount"] as string, 10) : 0
+      average: ratingTree ? parseFloat(ratingTree['ratingValue'] as string) : 0,
+      best: ratingTree ? parseInt(ratingTree['bestRating'] as string, 10) : 0,
+      count: ratingTree ? parseInt(ratingTree['ratingCount'] as string, 10) : 0,
     };
 
     return rating;
@@ -223,7 +223,7 @@ export default class Thread implements ILazy {
 
     // Get the title name
     let name = headline;
-    if (matches) matches.forEach((e) => (name = name.replace(e, "")));
+    if (matches) matches.forEach(e => (name = name.replace(e, '')));
     return name.trim();
   }
 
@@ -236,25 +236,25 @@ export default class Thread implements ILazy {
     const $ = load(html);
 
     // Fetch data from selectors
-    const ownerID = $(THREAD.OWNER_ID).attr("data-user-id");
+    const ownerID = $(THREAD.OWNER_ID).attr('data-user-id');
     const tagArray = $(THREAD.TAGS).toArray();
     const prefixArray = $(THREAD.PREFIXES).toArray();
-    const JSONLD = getJSONLD($("body"));
-    const published = getDateFromString(JSONLD["datePublished"] as string);
-    const modified = getDateFromString(JSONLD["dateModified"] as string);
+    const JSONLD = getJSONLD($('body'));
+    const published = getDateFromString(JSONLD['datePublished'] as string);
+    const modified = getDateFromString(JSONLD['dateModified'] as string);
 
     // Throws error if no ID is found
-    if (!ownerID) throw new InvalidResponseParsing("Cannot get ID from HTML response");
+    if (!ownerID) throw new InvalidResponseParsing('Cannot get ID from HTML response');
 
     // Parse the thread's data
-    this._headline = JSONLD["headline"] as string;
+    this._headline = JSONLD['headline'] as string;
     this._title = this.cleanHeadline(this._headline);
-    this._tags = tagArray.map((el) => $(el).text().trim());
-    this._prefixes = prefixArray.map((el) => $(el).text().trim());
+    this._tags = tagArray.map(el => $(el).text().trim());
+    this._prefixes = prefixArray.map(el => $(el).text().trim());
     this._owner = new PlatformUser(parseInt(ownerID, 10));
     await this._owner.fetch();
     this._rating = this.parseRating(JSONLD);
-    const section = JSONLD["articleSection"].toString().toLowerCase();
+    const section = JSONLD['articleSection'].toString().toLowerCase();
     this._category = section as TCategory;
 
     // Validate the dates
@@ -276,7 +276,7 @@ export default class Thread implements ILazy {
     const regex = new RegExp(/(threads\/|\.)([0-9]+)/);
     const match = surl.match(regex);
     if (match) {
-      const sid = match[0].replace(".", "").replace("threads/", "");
+      const sid = match[0].replace('.', '').replace('threads/', '');
       id = parseInt(sid, 10);
     }
 
@@ -311,7 +311,7 @@ export default class Thread implements ILazy {
    */
   public async getPost(index: number): Promise<Post | undefined> {
     // Validate parameters
-    if (index < 1) throw new ParameterError("Index must be greater or equal than 1");
+    if (index < 1) throw new ParameterError('Index must be greater or equal than 1');
 
     // Reduce the maximum number of posts per page to POST_FOR_PAGE
     await this.setMaximumPostsForPage(this.POST_FOR_PAGE);
