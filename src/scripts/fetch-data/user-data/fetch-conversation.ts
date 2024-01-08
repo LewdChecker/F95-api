@@ -4,13 +4,13 @@
 // https://opensource.org/licenses/MIT
 
 // Public modules from npm
-import { Cheerio, AnyNode, load } from 'cheerio';
-import { isValidISODateString } from 'iso-datestring-validator';
+import { AnyNode, Cheerio, load } from 'cheerio';
 
 // Modules from files
 import { CONVERSATION } from '../../constants/css-selector';
 import { urls } from '../../constants/url';
 import { IConversation } from '../../interfaces';
+import { isValidISODateString } from '../../utils';
 
 /**
  * Process a page containing a list of conversations

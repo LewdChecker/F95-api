@@ -4,12 +4,9 @@
 // https://opensource.org/licenses/MIT
 
 // Public modules from npm
-import { isValidISODateString } from 'iso-datestring-validator';
-import { Cheerio, AnyNode, load } from 'cheerio';
+import { AnyNode, Cheerio, load } from 'cheerio';
 
 // Modules from files
-import PlatformUser from './platform-user';
-import { urls } from '../../constants/url';
 import {
   ALERT,
   BOOKMARKED_POST,
@@ -17,21 +14,24 @@ import {
   GENERIC,
   WATCHED_THREAD,
 } from '../../constants/css-selector';
+import { DEFAULT_DATE } from '../../constants/generic';
+import { urls } from '../../constants/url';
+import fetchAlertElements from '../../fetch-data/user-data/fetch-alert';
+import fetchPageConversations from '../../fetch-data/user-data/fetch-conversation';
+import { getHandiworkFromURL } from '../../handiwork-from-url';
+import { IAlert, IBookmarkedPost, IConversation, IWatchedThread } from '../../interfaces';
 import { fetchHTML } from '../../network-helper';
+import shared from '../../shared';
+import { isValidISODateString } from '../../utils';
 import {
   InvalidID,
   MissingOrInvalidParsingAttribute,
-  UserNotLogged,
   USER_NOT_LOGGED,
+  UserNotLogged,
 } from '../errors';
-import shared from '../../shared';
 import Game from '../handiwork/game';
-import { IAlert, IBookmarkedPost, IConversation, IWatchedThread } from '../../interfaces';
-import fetchAlertElements from '../../fetch-data/user-data/fetch-alert';
+import PlatformUser from './platform-user';
 import Thread from './thread';
-import { getHandiworkFromURL } from '../../handiwork-from-url';
-import fetchPageConversations from '../../fetch-data/user-data/fetch-conversation';
-import { DEFAULT_DATE } from '../../constants/generic';
 
 interface IFetchOptions<T> {
   /**

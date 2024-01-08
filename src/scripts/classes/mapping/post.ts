@@ -4,25 +4,25 @@
 // https://opensource.org/licenses/MIT
 
 // Public modules from npm
-import { Cheerio, CheerioAPI, AnyNode, load } from 'cheerio';
-import { isValidISODateString } from 'iso-datestring-validator';
+import { AnyNode, Cheerio, CheerioAPI, load } from 'cheerio';
 
 // Modules from file
-import PlatformUser from './platform-user';
 import { POST, THREAD } from '../../constants/css-selector';
-import { urls } from '../../constants/url';
-import { fetchHTML } from '../../network-helper';
-import shared from '../../shared';
-import {
-  InvalidID,
-  INVALID_POST_ID,
-  MissingOrInvalidParsingAttribute,
-  UserNotLogged,
-  USER_NOT_LOGGED,
-} from '../errors';
-import { ILazy, IPostElement } from '../../interfaces';
-import { extractDataFromFirstThreadPost } from '../../scrape-data/post-parse-tree';
 import { DEFAULT_DATE } from '../../constants/generic';
+import { urls } from '../../constants/url';
+import { ILazy, IPostElement } from '../../interfaces';
+import { fetchHTML } from '../../network-helper';
+import { extractDataFromFirstThreadPost } from '../../scrape-data/post-parse-tree';
+import shared from '../../shared';
+import { isValidISODateString } from '../../utils';
+import {
+  INVALID_POST_ID,
+  InvalidID,
+  MissingOrInvalidParsingAttribute,
+  USER_NOT_LOGGED,
+  UserNotLogged,
+} from '../errors';
+import PlatformUser from './platform-user';
 
 /**
  * Represents a post published by a user on the F95Zone platform.

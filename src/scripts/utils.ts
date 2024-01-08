@@ -3,6 +3,8 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
+import { DateTime } from 'luxon';
+
 /**
  * Gets all dates in the `YYYY-MM-DD` format and
  * sorts them according to the `order` parameter.
@@ -24,4 +26,10 @@ export function getDateFromString(
 
   // Return the first
   return array.shift();
+}
+/**
+ * Replace iso-datestring-validator's function with luxon
+ */
+export function isValidISODateString(s: string) {
+  return DateTime.fromISO(s).isValid;
 }

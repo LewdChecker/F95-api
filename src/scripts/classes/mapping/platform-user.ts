@@ -5,16 +5,16 @@
 
 // Public modules from npm
 import { load } from 'cheerio';
-import { isValidISODateString } from 'iso-datestring-validator';
 
 // Modules from files
-import { urls } from '../../constants/url';
-import { fetchHTML } from '../../network-helper';
 import { GENERIC, MEMBER } from '../../constants/css-selector';
-import shared from '../../shared';
-import { InvalidID, INVALID_USER_ID, UserNotLogged, USER_NOT_LOGGED } from '../errors';
-import { ILazy } from '../../interfaces';
 import { DEFAULT_DATE } from '../../constants/generic';
+import { urls } from '../../constants/url';
+import { ILazy } from '../../interfaces';
+import { fetchHTML } from '../../network-helper';
+import shared from '../../shared';
+import { isValidISODateString } from '../../utils';
+import { INVALID_USER_ID, InvalidID, USER_NOT_LOGGED, UserNotLogged } from '../errors';
 
 /**
  * Represents a generic user registered on the platform.
