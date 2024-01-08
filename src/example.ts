@@ -26,9 +26,7 @@ const { CaptchaHarvest } = recaptchaHarvester;
 import {
   Game,
   HandiworkSearchQuery,
-  LatestSearchQuery,
   UserProfile,
-  getLatestUpdates,
   loggerLevel,
   login,
   logout,
@@ -131,24 +129,6 @@ async function fetchUserData(): Promise<void> {
 }
 
 /**
- * Fetch the data of the latest `3D game` updated.
- */
-async function fetchLatestGameInfo(): Promise<void> {
-  const latestQuery: LatestSearchQuery = new LatestSearchQuery();
-  latestQuery.category = 'games';
-  latestQuery.includedTags = ['3d game'];
-
-  const latestUpdates = await getLatestUpdates<Game>(latestQuery, Game, 1);
-
-  if (latestUpdates.length !== 0) {
-    const gamename = latestUpdates[0].name;
-    const tags = latestQuery.includedTags.join();
-
-    console.log(`"${gamename}" was the last "${tags}" tagged game to be updated\n`);
-  } else console.log('No game found with the specified tags');
-}
-
-/**
  * Fetch data of the games given theirs names.
  */
 async function fetchGameData(games: string[]): Promise<void> {
@@ -181,9 +161,6 @@ async function main() {
   if (await authenticate()) {
     // Fetch and log user data
     await fetchUserData();
-
-    // Get latest `3D GAME` game updated
-    await fetchLatestGameInfo();
 
     // Get game data
     const gameList = ['City of broken dreamers', 'Seeds of chaos', 'MIST'];
